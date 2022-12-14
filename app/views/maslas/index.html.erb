@@ -1,0 +1,14 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Maslas</h1>
+
+<div id="maslas">
+  <% @maslas.each do |masla| %>
+    <%= render masla %>
+    <p>
+      <%= link_to "Show this masla", masla %>
+    </p>
+  <% end %>
+</div>
+
+<%= link_to "New masla", new_masla_path %>

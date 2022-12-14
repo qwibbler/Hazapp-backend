@@ -1,0 +1,10 @@
+<p style="color: green"><%= notice %></p>
+
+<%= render @masla %>
+
+<div>
+  <%= link_to "Edit this masla", edit_masla_path(@masla) %> |
+  <%= link_to "Back to maslas", maslas_path %>
+
+  <%= button_to "Destroy this masla", @masla, method: :delete %>
+</div>
