@@ -65,6 +65,7 @@ class PreMaslasController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def pre_masla_params
-      params.fetch(:pre_masla, {})
+      # params.fetch(:pre_masla, {})
+      params.permit(:maslas_id, :premasla, :value)
     end
 end
