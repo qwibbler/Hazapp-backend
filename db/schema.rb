@@ -27,13 +27,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_09_152229) do
   end
 
   create_table "pre_maslas", force: :cascade do |t|
-    t.bigint "maslas_id", null: false
-    t.string "type", null: false
+    t.bigint "masla_id", null: false
+    t.string "premasla", null: false
     t.string "value", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["maslas_id"], name: "index_pre_maslas_on_maslas_id"
+    t.index ["masla_id"], name: "index_pre_maslas_on_masla_id"
   end
 
-  add_foreign_key "pre_maslas", "maslas", column: "maslas_id"
+  add_foreign_key "pre_maslas", "maslas"
 end
