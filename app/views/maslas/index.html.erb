@@ -2,13 +2,18 @@
 
 <h1>Maslas</h1>
 
-<div id="maslas">
+<table id="maslas">
+  <thead>
+    <th></th>
+    <th>Id</th>
+    <th>Masla</th>
+    <th>Input</th>
+    <th>Created</th>
+    <th>Updated</th>
+  </thead>
   <% @maslas.each do |masla| %>
     <%= render masla %>
-    <p>
-      <%= link_to "Show this masla", masla %>
-    </p>
   <% end %>
-</div>
+</table>
 
 <%= link_to "New masla", new_masla_path %>
