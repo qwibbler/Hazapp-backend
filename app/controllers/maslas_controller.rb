@@ -3,7 +3,7 @@ class MaslasController < ApplicationController
 
   # GET /maslas or /maslas.json
   def index
-    @maslas = Masla.all
+    @maslas = Masla.all.includes(:pre_maslas)
   end
 
   # GET /maslas/1 or /maslas/1.json
@@ -65,6 +65,7 @@ class MaslasController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def masla_params
-      params.fetch(:masla, {})
+      # params.fetch(:masla, {})
+      params.permit(:uid, :typeOfInput, :typeOfMasla, :answerUrdu, :answerEnglish, entries: [])
     end
 end
