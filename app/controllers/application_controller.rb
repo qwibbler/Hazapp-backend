@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  def pivot_table
+  def premasla_pivot_table
     @table = PivotTable::Grid.new do |g|
       g.source_data  = PreMasla.all
       g.column_name  = :premasla

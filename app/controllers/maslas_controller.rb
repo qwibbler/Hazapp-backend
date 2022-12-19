@@ -4,7 +4,7 @@ class MaslasController < ApplicationController
   # GET /maslas or /maslas.json
   def index
     @maslas = Masla.all.includes(:pre_maslas)
-    @table = pivot_table()
+    @table = premasla_pivot_table()
   end
 
   # GET /maslas/1 or /maslas/1.json
