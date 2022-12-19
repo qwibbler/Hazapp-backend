@@ -2,7 +2,7 @@
 
 <h1>Maslas</h1>
 
-<table id="maslas">
+<table>
   <thead>
     <th></th>
     <th>Id</th>
@@ -10,10 +10,20 @@
     <th>Input</th>
     <th>Created</th>
     <th>Updated</th>
+    <% @table.columns.each do |col| %>
+      <th><%= col.header %></th>
+    <% end %>
   </thead>
-  <% @maslas.each do |masla| %>
-    <%= render masla %>
+  <tbody>
+  <% @table.rows.each do |row| %>
+    <tr>
+      <%= render row.header %>
+      <% row.data.each do |cell| %>
+        <td><%= cell %></td>
+      <% end %>
+    </tr>
   <% end %>
+  </tbody>
 </table>
 
 <%= link_to "New masla", new_masla_path %>
