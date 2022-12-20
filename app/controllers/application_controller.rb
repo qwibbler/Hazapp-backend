@@ -1,7 +1,9 @@
 class ApplicationController < ActionController::Base
-  def premasla_pivot_table
+  protect_from_forgery with: :null_session
+
+  def premasla_pivot_table(premaslas)
     @table = PivotTable::Grid.new do |g|
-      g.source_data  = PreMasla.all
+      g.source_data  = premaslas
       g.column_name  = :premasla
       g.row_name     = :masla
       g.field_name   = :value
