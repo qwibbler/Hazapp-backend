@@ -3,8 +3,8 @@ class MaslasController < ApplicationController
 
   # GET /maslas or /maslas.json
   def index
-    @maslas = Masla.all.includes(:pre_maslas)
-    @table = premasla_pivot_table()
+    @maslas = Masla.all
+    @table = premasla_pivot_table(PreMasla.all.includes(:masla))
   end
 
   # GET /maslas/1 or /maslas/1.json
@@ -12,9 +12,9 @@ class MaslasController < ApplicationController
   end
 
   # GET /maslas/new
-  def new
-    @masla = Masla.new
-  end
+  # def new
+  #   @masla = Masla.new
+  # end
 
   # GET /maslas/1/edit
   def edit
@@ -22,10 +22,14 @@ class MaslasController < ApplicationController
 
   # POST /maslas or /maslas.json
   def create
+    # TODO: params[:entries]
     @masla = Masla.new(masla_params)
 
     respond_to do |format|
       if @masla.save
+        params[:preMaslaValues].each do |preMaslaValue|
+          PreMasla.create(masla: @masla, premasla: preMaslaValue[0], value: preMaslaValue[1])
+        end
         format.html { redirect_to masla_url(@masla), notice: "Masla was successfully created." }
         format.json { render :show, status: :created, location: @masla }
       else
@@ -64,9 +68,9 @@ class MaslasController < ApplicationController
       @masla = Masla.find(params[:id])
     end
 
+    # TODO: Unpermitted parameters: :preMaslaValues
     # Only allow a list of trusted parameters through.
     def masla_params
-      # params.fetch(:masla, {})
       params.permit(:uid, :typeOfInput, :typeOfMasla, :answerUrdu, :answerEnglish, entries: [])
     end
 end
