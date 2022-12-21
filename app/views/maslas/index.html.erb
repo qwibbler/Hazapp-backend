@@ -8,9 +8,9 @@
     <th>Id</th>
     <th>Masla</th>
     <th>Input</th>
+    <th>entries</th>
     <th>answerEnglish</th>
     <th>answerUrdu</th>
-    <th>entries</th>
     <th>Created</th>
     <th>Updated</th>
     <th>Delete</th>
@@ -31,5 +31,14 @@
     <% end %>
   </tbody>
 </table>
+
+<%
+=begin%>
+ <% @try.each do |try| %>
+  <%= try %>
+<% end %> 
+<%
+=end%>
+
 
 <%= link_to "New masla", new_masla_path %>
