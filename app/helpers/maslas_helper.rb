@@ -22,6 +22,16 @@ module MaslasHelper
     }
   end
 
+  def style_entries_for_show(entries)
+    entries.map { |entry|
+      entry
+      .gsub(/["{}\\]/, '')
+      .gsub(/startTime=>([^,]*), endTime=>([^,]*)$/) do |match|
+        "Start: #{date_or_time($1)} ---> End: #{date_or_time($2)};"
+      end
+    }
+  end
+
   def row_number(table, masla)
     table.row_headers.index(masla)
   end

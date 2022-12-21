@@ -4,7 +4,7 @@
 <td><%= masla.typeOfInput %></td>
 <td>
   <% style_entries(masla.entries)[0...2].each do |entry| %>
-    <span><%= entry %></span><br><br>
+    <span><%= entry %></span>
   <% end %>
   <%= '...' if masla.entries.length > 2 %>
 </td>
