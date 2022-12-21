@@ -21,7 +21,7 @@
   <tbody>
     <% @maslas.each do |masla| %>
       <tr>
-        <%= render masla %>
+        <%= render "masla_row", masla: masla %>
         <% if @table.row_headers.include? masla %>
           <% row_data(@table, masla).each do |cell| %>
             <td><%= cell %></td>
