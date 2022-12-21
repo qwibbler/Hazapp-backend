@@ -9,6 +9,7 @@ class MaslasController < ApplicationController
 
   # GET /maslas/1 or /maslas/1.json
   def show
+    @table = premasla_pivot_table(@masla.pre_maslas)
   end
 
   # GET /maslas/new
@@ -27,8 +28,8 @@ class MaslasController < ApplicationController
 
     respond_to do |format|
       if @masla.save
-        params[:preMaslaValues].each do |preMaslaValue|
-          PreMasla.create(masla: @masla, premasla: preMaslaValue[0], value: preMaslaValue[1])
+        params[:others].each do |other|
+          PreMasla.create(masla: @masla, premasla: other[0], value: other[1]) unless other[1].blank? || other[1].nil?
         end
         format.html { redirect_to masla_url(@masla), notice: "Masla was successfully created." }
         format.json { render :show, status: :created, location: @masla }
@@ -71,6 +72,6 @@ class MaslasController < ApplicationController
     # TODO: Unpermitted parameters: :preMaslaValues
     # Only allow a list of trusted parameters through.
     def masla_params
-      params.permit(:uid, :typeOfInput, :typeOfMasla, :answerUrdu, :answerEnglish, entries: [])
+      params.require(:masla).permit(:uid, :typeOfInput, :typeOfMasla, :answerUrdu, :answerEnglish, entries: [])
     end
 end
