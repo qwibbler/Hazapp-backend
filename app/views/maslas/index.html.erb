@@ -20,7 +20,7 @@
   <tbody>
     <% @maslas.each do |masla| %>
       <tr>
-        <%= render "masla_row", masla: masla, table: @table %>
+        <%= render masla, table: @table %>
       </tr>
     <% end %>
   </tbody>
