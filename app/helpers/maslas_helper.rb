@@ -10,4 +10,16 @@ module MaslasHelper
   def style_entries(entries)
     entries.map { |entry| entry.gsub(/["{}\\]/, '').gsub('Time', '') }
   end
+
+  def row_number(table, masla)
+    table.row_headers.index(masla)
+  end
+
+  def find_row(table, masla)
+    table.rows[row_number(table, masla)]
+  end
+
+  def row_data(table, masla)
+    find_row(table, masla).data
+  end
 end

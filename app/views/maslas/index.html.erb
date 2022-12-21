@@ -19,11 +19,13 @@
     <% end %>
   </thead>
   <tbody>
-    <% @table.rows.each do |row| %>
+    <% @maslas.each do |masla| %>
       <tr>
-        <%= render row.header %>
-        <% row.data.each do |cell| %>
-          <td><%= cell %></td>
+        <%= render masla %>
+        <% if @table.row_headers.include? masla %>
+          <% row_data(@table, masla).each do |cell| %>
+            <td><%= cell %></td>
+          <% end %>
         <% end %>
       </tr>
     <% end %>
