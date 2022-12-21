@@ -1,5 +1,5 @@
 <td><%= masla.id %></td>
-<td><%= link_to masla.uid, masla %></td>
+<td><%= link_to masla.uid, masla %><%= button_to "Del", masla, method: :delete %></td>
 <td><%= masla.typeOfMasla %></td>
 <td><%= masla.typeOfInput %></td>
 <td>
@@ -12,4 +12,9 @@
 <td><%= raw(masla.answerUrdu[0..55]) %>...</td>
 <td><%= style_date(masla.created_at) %></td>
 <td><%= style_date(masla.updated_at) %></td>
-<td><%= button_to "Delete", masla, method: :delete %></td>
+<% if @table.row_headers.include? masla %>
+  <% row_data(@table, masla).each do |cell| %>
+    <td><%= cell %></td>
+  <% end %>
+<% end %>
+<td></td>

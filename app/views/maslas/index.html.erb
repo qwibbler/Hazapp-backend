@@ -13,7 +13,6 @@
     <th>answerUrdu</th>
     <th>Created</th>
     <th>Updated</th>
-    <th>Delete</th>
     <% @table.columns.each do |col| %>
       <th><%= col.header %></th>
     <% end %>
@@ -21,12 +20,7 @@
   <tbody>
     <% @maslas.each do |masla| %>
       <tr>
-        <%= render "masla_row", masla: masla %>
-        <% if @table.row_headers.include? masla %>
-          <% row_data(@table, masla).each do |cell| %>
-            <td><%= cell %></td>
-          <% end %>
-        <% end %>
+        <%= render "masla_row", masla: masla, table: @table %>
       </tr>
     <% end %>
   </tbody>
