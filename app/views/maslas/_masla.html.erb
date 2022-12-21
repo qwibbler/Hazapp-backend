@@ -2,5 +2,9 @@
 <td><%= link_to masla.uid, masla %></td>
 <td><%= masla.typeOfMasla %></td>
 <td><%= masla.typeOfInput %></td>
-<td><%= masla.created_at.strftime("%d/%m/%Y at %I:%M %p") %></td>
-<td><%= masla.updated_at.strftime("%d/%m/%Y at %I:%M %p") %></td>
+<td><%= masla.entries %></td>
+<td><%= raw(masla.answerEnglish[0..55]) %>...</td>
+<td><%= raw(masla.answerUrdu[0..55]) %>...</td>
+<td><%= style_date(masla.created_at) %></td>
+<td><%= style_date(masla.updated_at) %></td>
+<td><%= button_to "Delete", masla, method: :delete %></td>

@@ -8,21 +8,25 @@
     <th>Id</th>
     <th>Masla</th>
     <th>Input</th>
+    <th>answerEnglish</th>
+    <th>answerUrdu</th>
+    <th>entries</th>
     <th>Created</th>
     <th>Updated</th>
+    <th>Delete</th>
     <% @table.columns.each do |col| %>
       <th><%= col.header %></th>
     <% end %>
   </thead>
   <tbody>
-  <% @table.rows.each do |row| %>
-    <tr>
-      <%= render row.header %>
-      <% row.data.each do |cell| %>
-        <td><%= cell %></td>
-      <% end %>
-    </tr>
-  <% end %>
+    <% @table.rows.each do |row| %>
+      <tr>
+        <%= render row.header %>
+        <% row.data.each do |cell| %>
+          <td><%= cell %></td>
+        <% end %>
+      </tr>
+    <% end %>
   </tbody>
 </table>
 
