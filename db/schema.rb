@@ -16,8 +16,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_09_152229) do
 
   create_table "maslas", force: :cascade do |t|
     t.string "uid", null: false
-    t.string "typeOfInput", default: "DATE_ONLY"
-    t.string "typeOfMasla", default: "MUTADA"
+    t.string "typeOfInput", default: "dateOnly"
+    t.string "typeOfMasla", default: "mutada"
     t.string "entries", default: [], array: true
     t.string "answerUrdu", default: ""
     t.string "answerEnglish", default: ""
