@@ -9,7 +9,6 @@ class MaslasController < ApplicationController
 
   # GET /maslas/1 or /maslas/1.json
   def show
-    @table = premasla_pivot_table(@masla.pre_maslas)
   end
 
   # GET /maslas/new

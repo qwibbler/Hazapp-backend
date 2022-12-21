@@ -9,7 +9,7 @@
 <h3>Masla Info:</h3>
 <b>maslaType:</b> <%= @masla.typeOfMasla %><br>
 <b>maslaInput:</b> <%= @masla.typeOfInput %><br>
-<% @premaslas.each do |premasla| %>
+<% @masla.pre_maslas.each do |premasla| %>
   <b><%= premasla.premasla %>:</b> <%= premasla.value %><br>
 <% end%>
 
