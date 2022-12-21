@@ -1,10 +1,14 @@
 module MaslasHelper
   def style_dateTime(date)
-    date.strftime("%d/%m/%Y %I:%M %p")
+    date.strftime("%d-%m-%Y %I:%M %p")
   end
 
   def style_date(date)
-    date.strftime("%d/%m/%Y")
+    date.strftime("%d-%m-%Y")
+  end
+
+  def date_or_time(date)
+    date.include?('T') ? style_dateTime(Date.parse(date)) : style_date(Date.parse(date))
   end
 
   # S=>2022-12-01, E=>2022-12-08
@@ -12,13 +16,9 @@ module MaslasHelper
     entries.map { |entry|
       entry
       .gsub(/["{}\\]/, '')
-      .gsub('startTime', 'S')
-      .gsub('endTime', 'E')
-      .gsub(/>([^,]*)T([^,]*).*?(,|$)/) do |match|
-        '>' + style_dateTime(Date.parse(match[1..-1]))
+      .gsub(/startTime=>([^,]*), endTime=>([^,]*)$/) do |match|
+        "S: #{date_or_time($1)} E: #{date_or_time($2)}"
       end
-      .gsub('=>', ': ')
-      # .gsub('T', ' ')
     }
   end
 
