@@ -26,6 +26,12 @@ class MaslasController < ApplicationController
     # TODO: params[:entries]
     @masla = Masla.new(masla_params)
 
+    params[:entries].each do |entry|
+      p
+      p entry
+      p
+    end
+
     respond_to do |format|
       if @masla.save
         params[:others].each do |other|
@@ -72,6 +78,6 @@ class MaslasController < ApplicationController
     # TODO: Unpermitted parameters: :preMaslaValues
     # Only allow a list of trusted parameters through.
     def masla_params
-      params.require(:masla).permit(:uid, :typeOfInput, :typeOfMasla, :answerUrdu, :answerEnglish, entries: [])
+      params.require(:masla).permit(:uid, :typeOfInput, :typeOfMasla, :answerUrdu, :answerEnglish, entries: [:startTime, :endTime])
     end
 end
