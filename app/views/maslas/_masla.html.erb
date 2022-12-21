@@ -2,7 +2,12 @@
 <td><%= link_to masla.uid, masla %></td>
 <td><%= masla.typeOfMasla %></td>
 <td><%= masla.typeOfInput %></td>
-<td><%= style_entries(masla.entries) %></td>
+<td>
+  <% style_entries(masla.entries)[0...2].each do |entry| %>
+    <span><%= entry %></span><br><br>
+  <% end %>
+  <%= '...' if masla.entries.length > 2 %>
+</td>
 <td><%= raw(masla.answerEnglish[0..55]) %>...</td>
 <td><%= raw(masla.answerUrdu[0..55]) %>...</td>
 <td><%= style_date(masla.created_at) %></td>
