@@ -1,14 +1,25 @@
 module MaslasHelper
+  def style_dateTime(date)
+    date.strftime("%d/%m/%Y %I:%M %p")
+  end
+
   def style_date(date)
-    date.strftime("%d/%m/%Y at %I:%M %p")
+    date.strftime("%d/%m/%Y")
   end
 
-  def convert_date(date)
-    style_date(Time.at(date.to_f / 1000)) if date.to_i.to_s == date
-  end
-
+  # S=>2022-12-01, E=>2022-12-08
   def style_entries(entries)
-    entries.map { |entry| entry.gsub(/["{}\\]/, '').gsub('Time', '') }
+    entries.map { |entry|
+      entry
+      .gsub(/["{}\\]/, '')
+      .gsub('startTime', 'S')
+      .gsub('endTime', 'E')
+      .gsub(/>([^,]*)T([^,]*).*?(,|$)/) do |match|
+        '>' + style_dateTime(Date.parse(match[1..-1]))
+      end
+      .gsub('=>', ': ')
+      # .gsub('T', ' ')
+    }
   end
 
   def row_number(table, masla)
