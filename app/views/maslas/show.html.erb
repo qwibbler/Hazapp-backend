@@ -8,40 +8,37 @@
     <small>Updated at: <%= style_date_time(@masla.updated_at) %></small>
   </div>
 
-  <div class="row row-cols-2 gx-5 m-5">
-    <div class="col col-lg-5">
-      <h2>Masla Info:</h2>
-      <dl class="row row-cols-2">
-        <dt class="col">maslaType:</dt>
-        <dd class="col"><%= @masla.typeOfMasla %></dd>
+  <div class="container m-5">
+    <h2>Masla Info:</h2>
+    <dl class="row">
+      <dt class="col-sm-4">maslaType:</dt>
+      <dd class="col-sm-5"><%= @masla.typeOfMasla %></dd>
 
-        <dt class="col">maslaInput:</dt>
-        <dd class="col"><%= @masla.typeOfInput %></dd>
+      <dt class="col-sm-4">maslaInput:</dt>
+      <dd class="col-sm-5"><%= @masla.typeOfInput %></dd>
 
-        <% @masla.pre_maslas.each do |premasla| %>
-          <dt class="col"><%= premasla.premasla %>:</dt>
-          <dd class="col"><%= premasla.value == 't' ? 'True' : premasla.value %></dd>
-        <% end%>
-      </dl>
-    </div>
+      <% @masla.pre_maslas.each do |premasla| %>
+        <dt class="col-sm-4"><%= premasla.premasla %>:</dt>
+        <dd class="col-sm-5"><%= premasla.value == 't' ? 'True' : premasla.value %></dd>
+      <% end%>
+    </dl>
+  </div>
 
-    <% unless @masla.entries.empty? %>
-      <div class="col col-lg-5">
-        <h2>Entries:</h2>
-          <div class="row row-cols-2 gx-auto">
-            <div class="col"><h3>Start:</h3></div>
-            <div class="col"><h3>End:</h3></div>
+  <% unless @masla.entries.empty? %>
+    <div class="container m-5">
+      <h2>Entries:</h2>
+        <div class="row gx-auto">
+          <div class="col col-lg-2"><h3>Start:</h3></div>
+          <div class="col col-lg-2"><h3>End:</h3></div>
+        </div>
+        <% style_entries_for_show(@masla.entries).each do |entry| %>
+          <div class="row gx-auto">
+            <div class="col col-lg-2"><dd><%= entry[0] %></dd></div>
+            <div class="col col-lg-2"><dd><%= entry[1] %></dd></div>
           </div>
-
-          <% style_entries_for_show(@masla.entries).each do |entry| %>
-            <div class="row row-cols-2 gx-auto">
-              <div class="col col-auto"><dd><%= entry[0] %></dd></div>
-              <div class="col col-auto"><dd><%= entry[1] %></dd></div>
-            </div>
-          <% end %>
-      </div>
-    <% end %>
-</div>
+        <% end %>
+    </div>
+  <% end %>
 
   <% unless @masla.answerEnglish.blank? %>
     <div class="container m-5">
