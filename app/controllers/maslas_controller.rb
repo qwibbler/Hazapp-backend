@@ -44,7 +44,11 @@ class MaslasController < ApplicationController
     sub = Arel::Table.new('subq')
     sub_q = Arel::Nodes::As.new(q, Arel.sql(sub.name))
 
-    @out = Masla.joins(Arel::Nodes::OuterJoin.new(sub_q, Arel::Nodes::On.new(Masla.arel_table[:id].eq(sub[:masla_id]))))
+    @out = Masla
+    .joins(Arel::Nodes::OuterJoin.new(sub_q, Arel::Nodes::On.new(Masla.arel_table[:id].eq(sub[:masla_id]))))
+    .select(Masla.arel_table[Arel.star], *cols.map {|c| sub[c.intern]}).order(:id)
+
+    @cols = Masla.column_names + cols
 
     # "SELECT
     #   \"maslas\".*

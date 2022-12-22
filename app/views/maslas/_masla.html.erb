@@ -1,22 +1,11 @@
 <% limit = 120 %>
 
-<td><%= masla.id %></td>
-<td><%= link_to masla.uid, masla %><%= button_to "Del", masla, method: :delete %></td>
-<td><%= style_dateTime(masla.created_at) %></td>
-<td><%= style_dateTime(masla.updated_at) %></td>
-<td><%= masla.typeOfMasla %></td>
-<td><%= masla.typeOfInput %></td>
-<td>
-  <% style_entries(masla.entries)[0...2].each do |entry| %>
-    <span><%= entry %></span><br><br>
-  <% end %>
-  <%= '...' if masla.entries.length > 2 %>
-</td>
-<td><%= raw(masla.answerEnglish[0..limit]) %>...</td>
-<td><%= raw(masla.answerUrdu[0..limit]) %>...</td>
-<% if @table.row_headers.include? masla %>
-  <% row_data(@table, masla).each do |cell| %>
-    <td><%= cell %></td>
-  <% end %>
-<% end %>
-<td></td>
+ <% @cols.each do |col| %>
+  <td><%= masla[col] %></td>
+<% end %> 
+
+<%
+=begin%>
+ <td><%= masla.as_json %></td> 
+<%
+=end%>

@@ -2,7 +2,9 @@
 
 <h1>Maslas</h1>
 <%# TODO: Fix Maslas with no preMasla %>
-<table>
+<%
+=begin%>
+ <table>
   <thead>
     <th></th>
     <th>Id</th>
@@ -25,14 +27,27 @@
     <% end %>
   </tbody>
 </table>
-
-<%
-=begin%>
- <% @try.each do |try| %>
-  <%= try %>
-<% end %> 
 <%
 =end%>
 
-
-<%= link_to "New masla", new_masla_path %>
+<h4>
+ <%= @out.arel_table[Arel.star] %>
+</h4>
+<table>
+  <thead>
+    <th></th>
+    <% @cols.each do |col| %>
+      <th><%= col %></th>
+    <% end %>
+  </thead>
+  <tbody>
+    <% @out.each do |masla| %>
+      <tr>
+        <td><%= masla.id %></td>
+        <%= render masla %>
+      </td>
+    <% end %>
+  </tbody>
+</table>
+<br>
+<br> 
