@@ -31,7 +31,7 @@ module MaslasHelper
         .gsub(/startTime=>([^,]*), endTime=>([^,]*)$/) do |_match|
           "#{date_or_time(::Regexp.last_match(1))},#{date_or_time(::Regexp.last_match(2))};"
         end
-        .split(",")
+        .split(',')
     end
   end
 
