@@ -6,10 +6,8 @@ class MaslasController < ApplicationController
   def index
     pivot_join_table = PivotJoinTable.new(PreMasla, 'premasla', 'masla_id', 'value', Masla)
 
-    @out = pivot_join_table.join_table
+    @maslas = pivot_join_table.join_table.order(:id)
     @cols = pivot_join_table.all_columns
-
-    @maslas = Masla.all
   end
 
   # GET /maslas/1 or /maslas/1.json
