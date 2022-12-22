@@ -1,0 +1,34 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Showing masla <%= @masla.id %></h1>
+<small>Created at: <%= @masla.created_at %></small>
+<br>
+<small>Updated at: <%= @masla.updated_at %></small>
+<br>
+
+<h3>Masla Info:</h3>
+<b>maslaType:</b> <%= @masla.typeOfMasla %><br>
+<b>maslaInput:</b> <%= @masla.typeOfInput %><br>
+<% @masla.pre_maslas.each do |premasla| %>
+  <b><%= premasla.premasla %>:</b> <%= premasla.value %><br>
+<% end%>
+
+<h3>Entries:</h3>
+<% style_entries_for_show(@masla.entries).each do |entry| %>
+  <span><%= entry %></span><br>
+<% end %>
+
+<h3>Answers:</h3>
+<h4>Urdu:</h4>
+<%= raw(@masla.answerUrdu) %>
+<h4>English:</h4>
+<%= raw(@masla.answerEnglish) %>
+<br>
+<br>
+
+<div>
+  <%# link_to "Edit this masla", edit_masla_path(@masla) %> |
+  <%= link_to "Back to maslas", maslas_path %>
+
+  <%= button_to "Destroy this masla", @masla, method: :delete %>
+</div>

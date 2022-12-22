@@ -1,0 +1,38 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Maslas</h1>
+<%# TODO: Fix Maslas with no preMasla %>
+<table>
+  <thead>
+    <th></th>
+    <th>Id</th>
+    <th>Created</th>
+    <th>Updated</th>
+    <th>Masla</th>
+    <th>Input</th>
+    <th>entries</th>
+    <th>answerEnglish</th>
+    <th>answerUrdu</th>
+    <% @table.columns.each do |col| %>
+      <th><%= col.header %></th>
+    <% end %>
+  </thead>
+  <tbody>
+    <% @maslas.each do |masla| %>
+      <tr>
+        <%= render masla, table: @table %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%
+=begin%>
+ <% @try.each do |try| %>
+  <%= try %>
+<% end %> 
+<%
+=end%>
+
+
+<%= link_to "New masla", new_masla_path %>
