@@ -2,18 +2,19 @@
 
 <h1>Maslas</h1>
 
-<table class='table table-hover table-bordered'>
+<table class='table table-secondary table-hover table-bordered table-striped rounded'>
   <thead>
-    <th></th>
-    <% @cols[1..-1].each do |col| %>
-      <th><%= col %></th>
+    <th scope="col"></th>
+    <% @cols[1..].each do |col| %>
+      <th scope="col"><%= col %></th>
     <% end %>
+    <th scope="col"></th>
   </thead>
-  <tbody>
+  <tbody class="table-group-divider">
     <% @maslas.each do |masla| %>
       <tr>
         <%= render masla %>
-      </td>
+      </tr>
     <% end %>
   </tbody>
 </table>

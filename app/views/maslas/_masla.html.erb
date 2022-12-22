@@ -1,5 +1,4 @@
-<% limit = 120 %>
-
- <% @cols.each do |col| %>
+<% @cols.each do |col| %>
   <td><%= style_data(masla[col], col) %></td>
 <% end %>
+<td><%= button_to "X", masla, method: :delete %>

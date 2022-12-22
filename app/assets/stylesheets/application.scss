@@ -1,7 +1,12 @@
 @import "bootstrap";
 
+table {
+  text-align: center;
+  margin: 1rem 0.5rem;
+}
+
 thead th {
-  background-color: #e9ecef !important;
+  background-color: #c6c6c6 !important;
   position: sticky;
   top: 0;
 }
