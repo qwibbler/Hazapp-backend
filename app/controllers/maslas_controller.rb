@@ -1,93 +1,13 @@
-require './app/models/pivot_join_table.rb'
+require './app/models/pivot_join_table'
 class MaslasController < ApplicationController
   before_action :set_masla, only: %i[show edit update destroy]
 
   # GET /maslas or /maslas.json
   def index
     pivot_join_table = PivotJoinTable.new(PreMasla, 'premasla', 'masla_id', 'value', Masla)
-    # # Get all distinct premaslas to build columns
-    # cols = PreMasla.distinct.pluck(:premasla).sort
-    # # Quote the columns
-    # quotedCols = cols.map { |p| "\"#{p}\"" }
-    # # extra_info Arel::Table
-    # premasla_tbl = PreMasla.arel_table
-    # # Arel::Table to use for querying
-    # tbl = Arel::Table.new('ct')
-
-    # # SQL data type for the premasla.premasla column
-    # premasla_sql_type = PreMasla.columns.find { |c| c.name == 'premasla' }&.sql_type
-
-    # # Part 1 of crosstab
-    # qry_txt = premasla_tbl.project(
-    #   premasla_tbl[:masla_id],
-    #   premasla_tbl[:premasla],
-    #   premasla_tbl[:value]
-    # )
-    # # Part 2 of the crosstab
-    # cats = premasla_tbl.project(premasla_tbl[:premasla]).distinct
-
-    # # construct the ct portion of the crosstab query
-    # ct = Arel::Nodes::NamedFunction.new('ct', [
-    #                                       Arel::Nodes::TableAlias.new(Arel.sql('masla_id'), Arel.sql('bigint')),
-    #                                       *quotedCols.map do |name|
-    #                                         Arel::Nodes::TableAlias.new(Arel.sql(name), Arel.sql(premasla_sql_type))
-    #                                       end
-    #                                     ])
-
-    # # build the crosstab(...) AS ct(...) statement
-    # crosstab = Arel::Nodes::As.new(
-    #   Arel::Nodes::NamedFunction.new('crosstab', [Arel.sql("'#{qry_txt.to_sql}'"),
-    #                                               Arel.sql("'#{cats.to_sql}'")]),
-    #   ct
-    # )
-
-    # # final query construction
-    # q = tbl.project(tbl[Arel.star]).from(crosstab)
-    # # @try = ActiveRecord::Base.connection.execute(q.to_sql)
-
-    # sub = Arel::Table.new('subq')
-    # sub_q = Arel::Nodes::As.new(q, Arel.sql(sub.name))
-
-    # @out = Masla
-    #   .joins(Arel::Nodes::OuterJoin.new(sub_q, Arel::Nodes::On.new(Masla.arel_table[:id].eq(sub[:masla_id]))))
-    #   .select(Masla.arel_table[Arel.star], *cols.map { |c| sub[c.intern] }).order(:id)
 
     @out = pivot_join_table.join_table
-    @cols = pivot_join_table.all_columns()
-
-    # "SELECT
-    #   \"maslas\".*
-    # FROM
-    #   \"maslas\"
-    # LEFT OUTER JOIN (
-    #   SELECT
-    #     \"ct\".*
-    #   FROM
-    #     crosstab(
-    #       'SELECT
-    #         \"pre_maslas\".\"masla_id\",
-    #         \"pre_maslas\".\"premasla\",
-    #         \"pre_maslas\".\"value\"
-    #       FROM
-    #         \"pre_maslas\"',
-    #       'SELECT DISTINCT
-    #         \"pre_maslas\".\"premasla\"
-    #       FROM
-    #         \"pre_maslas\"')
-    #       AS
-    #         ct(masla_id bigint,
-    #           \"aadatHaiz\" character varying,
-    #           \"aadatNifas\" character varying,
-    #           \"aadatTuhr\" character varying,
-    #           \"birthTime\" character varying,
-    #           \"isMawjoodaFasid\" character varying,
-    #           \"mawjoodahTuhr\" character varying,
-    #           \"mustabeenUlKhilqat\" character varying,
-    #           \"pregStartTime\" character varying))
-    #   AS
-    #     subq
-    #   ON
-    #     \"maslas\".\"id\" = \"subq\".\"masla_id\""
+    @cols = pivot_join_table.all_columns
 
     @maslas = Masla.all
   end
