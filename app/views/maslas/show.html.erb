@@ -10,31 +10,35 @@
 
   <div class="container m-5">
     <h2>Masla Info:</h2>
-    <dl class="row">
-      <dt class="col-sm-4">maslaType:</dt>
-      <dd class="col-sm-5"><%= @masla.typeOfMasla %></dd>
+    <div class="row">
+      <dt class="col col-auto">maslaType:</dt>
+      <dd class="col col-auto"><%= @masla.typeOfMasla %></dd>
+    </div>
 
-      <dt class="col-sm-4">maslaInput:</dt>
-      <dd class="col-sm-5"><%= @masla.typeOfInput %></dd>
+    <div class="row">
+      <dt class="col col-auto">maslaInput:</dt>
+      <dd class="col col-auto"><%= @masla.typeOfInput %></dd>
+    </div>
 
       <% @masla.pre_maslas.each do |premasla| %>
-        <dt class="col-sm-4"><%= premasla.premasla %>:</dt>
-        <dd class="col-sm-5"><%= premasla.value == 't' ? 'True' : premasla.value %></dd>
+    <div class="row">
+        <dt class="col col-auto"><%= premasla.premasla %>:</dt>
+        <dd class="col col-auto"><%= premasla.value == 't' ? 'True' : premasla.value %></dd>
+    </div>
       <% end%>
-    </dl>
   </div>
 
   <% unless @masla.entries.empty? %>
     <div class="container m-5">
       <h2>Entries:</h2>
         <div class="row gx-auto">
-          <div class="col col-lg-2"><h3>Start:</h3></div>
-          <div class="col col-lg-2"><h3>End:</h3></div>
+          <div class="col col-lg"><h3>Start:</h3></div>
+          <div class="col col-lg"><h3>End:</h3></div>
         </div>
         <% style_entries_for_show(@masla.entries).each do |entry| %>
           <div class="row gx-auto">
-            <div class="col col-lg-2"><dd><%= entry[0] %></dd></div>
-            <div class="col col-lg-2"><dd><%= entry[1] %></dd></div>
+            <div class="col col-lg"><dd><%= entry[0] %></dd></div>
+            <div class="col col-lg"><dd><%= entry[1] %></dd></div>
           </div>
         <% end %>
     </div>
@@ -44,13 +48,13 @@
     <div class="container m-5">
         <h2>Answers:</h2>
       <div class="row gx-5">
-        <div class="col">
-          <h3>Urdu:</h3>
-          <p><%= simple_format(@masla.answerUrdu) %></p>
-        </div>
-        <div class="col">
+        <div class="col col-lg">
           <h3>English:</h3>
           <p><%= simple_format(@masla.answerEnglish) %></p>
+        </div>
+        <div dir="rtl" class="urdu col col-lg">
+          <h3>اردو:</h3>
+          <p><%= simple_format(@masla.answerUrdu) %></p>
         </div>
       </div>
     </div>
