@@ -25,14 +25,7 @@ class MaslasController < ApplicationController
 
   # POST /maslas or /maslas.json
   def create
-    # TODO: params[:entries]
     @masla = Masla.new(masla_params)
-
-    params[:entries].each do |entry|
-      p
-      p entry
-      p
-    end
 
     respond_to do |format|
       if @masla.save
