@@ -8,6 +8,9 @@ class MaslasController < ApplicationController
 
     @maslas = pivot_join_table.join_table.order(:id)
     @cols = pivot_join_table.all_columns
+
+    @limit_entries = 1
+    @limit_answer = 55
   end
 
   # GET /maslas/1 or /maslas/1.json

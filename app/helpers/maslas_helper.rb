@@ -15,13 +15,12 @@ module MaslasHelper
     entry
       .gsub(/["{}\\]/, '')
       .gsub(/startTime=>([^,]*), endTime=>([^,]*)$/) do |_match|
-      "S: #{date_or_time(::Regexp.last_match(1))} E: #{date_or_time(::Regexp.last_match(2))}"
+      "S:_#{date_or_time(::Regexp.last_match(1))} E:_#{date_or_time(::Regexp.last_match(2))}"
     end
   end
 
-  def style_entries(entries, limit = 2)
-    entries = entries[0..limit] if entries.size > limit
-    entries.map { |entry| style_entry(entry) }.join("\n\n")
+  def style_entries(entries, limit = 1)
+    simple_format(entries[0...limit].map { |entry| style_entry(entry) }.join("\n\n") + (entries.length > limit ? "\n..." : ''))
   end
 
   def style_entries_for_show(entries)
@@ -42,8 +41,8 @@ module MaslasHelper
   end
 
   def style_data(data, key)
-    return style_entries(data, 2) if key == 'entries'
-    return raw(data[0..120]) if key.include? 'answer'
+    return style_entries(data, @limit_entries) if key == 'entries'
+    return raw(data[10..@limit_answer]) if key.include? 'answer'
     return 'True' if data == 't'
     return style_date_time(data) if key[-3..] == '_at'
 
