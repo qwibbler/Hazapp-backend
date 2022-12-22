@@ -8,37 +8,57 @@
     <small>Updated at: <%= style_date_time(@masla.updated_at) %></small>
   </div>
 
-  <div class="container m-5">
-    <h2>Masla Info:</h2>
-    <dl class="row">
-      <dt class="col-sm-2">maslaType:</dt>
-      <dd class="col-sm-9"><%= @masla.typeOfMasla %></dd>
-
-      <dt class="col-sm-2">maslaInput:</dt>
-      <dd class="col-sm-9"><%= @masla.typeOfInput %></dd>
-
-      <% @masla.pre_maslas.each do |premasla| %>
-        <dt class="col-sm-2"><%= premasla.premasla %>:</dt>
-        <dd class="col-sm-9"><%= premasla.value == 't' ? 'True' : premasla.value %></dd>
-      <% end%>
-    </dl>
-  </div>
-
-  <% unless @masla.entries.empty? %>
-    <div class="container m-5">
-      <h2>Entries:</h2>
-        <div class="row gx-auto">
-          <div class="col col-lg-2"><h3>Start:</h3></div>
-          <div class="col col-lg-2"><h3>End:</h3></div>
-        </div>
-        <% style_entries_for_show(@masla.entries).each do |entry| %>
-          <div class="row gx-auto">
-            <div class="col col-lg-2"><dd><%= entry[0] %></dd></div>
-            <div class="col col-lg-2"><dd><%= entry[1] %></dd></div>
-          </div>
-        <% end %>
+  <div class="row row-cols-2 gx-5 m-5">
+    <div class="col-md">
+      <table class="table table-borderless table-sm">
+        <h2>Masla Info:</h2>
+        <tbody>
+          <tr>
+            <td><dt class="col">maslaType:</dt></td>
+            <td><dd class="col"><%= @masla.typeOfMasla %></dd></td>
+          </tr>
+          <tr>
+            <td>
+              <dt class="col">maslaInput:</dt>
+            </td>
+            <td>
+              <dd class="col"><%= @masla.typeOfInput %></dd>
+            </td>
+          </tr>
+          <% @masla.pre_maslas.each do |premasla| %>
+            <tr>
+              <td>
+                <dt class="col"><%= premasla.premasla %>:</dt>
+              </td>
+              <td>
+                <dd class="col"><%= premasla.value == 't' ? 'True' : premasla.value %></dd>
+              </td>
+            </tr>
+          <% end%>
+        </tbody>
+      </table>
     </div>
-  <% end %>
+
+    <% unless @masla.entries.empty? %>
+      <div class="col-md">
+        <table class="table table-borderless table-sm">
+          <h2>Entries:</h2>
+          <thead>
+            <th><h3>Start:</h3></th>
+            <th><h3>End:</h3></th>
+          </thead>
+          <tbody>
+            <% style_entries_for_show(@masla.entries).each do |entry| %>
+              <tr>
+                <td class="col col-auto"><%= entry[0] %></td>
+                <td class="col col-auto"><%= entry[1] %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    <% end %>
+  </div>
 
   <% unless @masla.answerEnglish.blank? %>
     <div class="container m-5">
