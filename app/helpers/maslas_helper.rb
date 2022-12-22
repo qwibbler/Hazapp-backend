@@ -1,5 +1,5 @@
 module MaslasHelper
-  def style_dateTime(date)
+  def style_date_time(date)
     date.strftime('%d-%m-%Y %I:%M %p')
   end
 
