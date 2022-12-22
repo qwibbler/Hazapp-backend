@@ -1,19 +1,19 @@
 class MaslasController < ApplicationController
-  before_action :set_masla, only: %i[ show edit update destroy ]
+  before_action :set_masla, only: %i[show edit update destroy]
 
   # GET /maslas or /maslas.json
   def index
     # Get all distinct premaslas to build columns
     cols = PreMasla.distinct.pluck(:premasla).sort
     # Quote the columns
-    quotedCols = cols.map { |p| '"' + p + '"'}
+    quotedCols = cols.map { |p| "\"#{p}\"" }
     # extra_info Arel::Table
     premasla_tbl = PreMasla.arel_table
     # Arel::Table to use for querying
     tbl = Arel::Table.new('ct')
 
     # SQL data type for the premasla.premasla column
-    premasla_sql_type = PreMasla.columns.find {|c| c.name == 'premasla' }&.sql_type
+    premasla_sql_type = PreMasla.columns.find { |c| c.name == 'premasla' }&.sql_type
 
     # Part 1 of crosstab
     qry_txt = premasla_tbl.project(
@@ -22,18 +22,20 @@ class MaslasController < ApplicationController
       premasla_tbl[:value]
     )
     # Part 2 of the crosstab
-    cats =  premasla_tbl.project(premasla_tbl[:premasla]).distinct
+    cats = premasla_tbl.project(premasla_tbl[:premasla]).distinct
 
     # construct the ct portion of the crosstab query
-    ct = Arel::Nodes::NamedFunction.new('ct',[
-      Arel::Nodes::TableAlias.new(Arel.sql('masla_id'), Arel.sql('bigint')),
-      *quotedCols.map {|name|  Arel::Nodes::TableAlias.new(Arel.sql(name), Arel.sql(premasla_sql_type))}
-    ])
+    ct = Arel::Nodes::NamedFunction.new('ct', [
+                                          Arel::Nodes::TableAlias.new(Arel.sql('masla_id'), Arel.sql('bigint')),
+                                          *quotedCols.map do |name|
+                                            Arel::Nodes::TableAlias.new(Arel.sql(name), Arel.sql(premasla_sql_type))
+                                          end
+                                        ])
 
     # build the crosstab(...) AS ct(...) statement
     crosstab = Arel::Nodes::As.new(
       Arel::Nodes::NamedFunction.new('crosstab', [Arel.sql("'#{qry_txt.to_sql}'"),
-        Arel.sql("'#{cats.to_sql}'")]),
+                                                  Arel.sql("'#{cats.to_sql}'")]),
       ct
     )
 
@@ -45,8 +47,8 @@ class MaslasController < ApplicationController
     sub_q = Arel::Nodes::As.new(q, Arel.sql(sub.name))
 
     @out = Masla
-    .joins(Arel::Nodes::OuterJoin.new(sub_q, Arel::Nodes::On.new(Masla.arel_table[:id].eq(sub[:masla_id]))))
-    .select(Masla.arel_table[Arel.star], *cols.map {|c| sub[c.intern]}).order(:id)
+      .joins(Arel::Nodes::OuterJoin.new(sub_q, Arel::Nodes::On.new(Masla.arel_table[:id].eq(sub[:masla_id]))))
+      .select(Masla.arel_table[Arel.star], *cols.map { |c| sub[c.intern] }).order(:id)
 
     @cols = Masla.column_names + cols
 
@@ -88,8 +90,7 @@ class MaslasController < ApplicationController
   end
 
   # GET /maslas/1 or /maslas/1.json
-  def show
-  end
+  def show; end
 
   # GET /maslas/new
   # def new
@@ -97,8 +98,7 @@ class MaslasController < ApplicationController
   # end
 
   # GET /maslas/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /maslas or /maslas.json
   def create
@@ -116,7 +116,7 @@ class MaslasController < ApplicationController
         params[:others].each do |other|
           PreMasla.create(masla: @masla, premasla: other[0], value: other[1]) unless other[1].blank? || other[1].nil?
         end
-        format.html { redirect_to masla_url(@masla), notice: "Masla was successfully created." }
+        format.html { redirect_to masla_url(@masla), notice: 'Masla was successfully created.' }
         format.json { render :show, status: :created, location: @masla }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -129,7 +129,7 @@ class MaslasController < ApplicationController
   def update
     respond_to do |format|
       if @masla.update(masla_params)
-        format.html { redirect_to masla_url(@masla), notice: "Masla was successfully updated." }
+        format.html { redirect_to masla_url(@masla), notice: 'Masla was successfully updated.' }
         format.json { render :show, status: :ok, location: @masla }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -143,19 +143,21 @@ class MaslasController < ApplicationController
     @masla.destroy
 
     respond_to do |format|
-      format.html { redirect_to maslas_url, notice: "Masla was successfully destroyed." }
+      format.html { redirect_to maslas_url, notice: 'Masla was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_masla
-      @masla = Masla.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def masla_params
-      params.require(:masla).permit(:uid, :typeOfInput, :typeOfMasla, :answerUrdu, :answerEnglish, entries: [:startTime, :endTime])
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_masla
+    @masla = Masla.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def masla_params
+    params.require(:masla).permit(:uid, :typeOfInput, :typeOfMasla, :answerUrdu, :answerEnglish,
+                                  entries: %i[startTime endTime])
+  end
 end

@@ -1,10 +1,10 @@
 module MaslasHelper
   def style_dateTime(date)
-    date.strftime("%d-%m-%Y %I:%M %p")
+    date.strftime('%d-%m-%Y %I:%M %p')
   end
 
   def style_date(date)
-    date.strftime("%d-%m-%Y")
+    date.strftime('%d-%m-%Y')
   end
 
   def date_or_time(date)
@@ -13,23 +13,23 @@ module MaslasHelper
 
   # S=>2022-12-01, E=>2022-12-08
   def style_entries(entries)
-    entries.map { |entry|
+    entries.map do |entry|
       entry
-      .gsub(/["{}\\]/, '')
-      .gsub(/startTime=>([^,]*), endTime=>([^,]*)$/) do |match|
-        "S: #{date_or_time($1)} E: #{date_or_time($2)}"
+        .gsub(/["{}\\]/, '')
+        .gsub(/startTime=>([^,]*), endTime=>([^,]*)$/) do |_match|
+        "S: #{date_or_time(::Regexp.last_match(1))} E: #{date_or_time(::Regexp.last_match(2))}"
       end
-    }
+    end
   end
 
   def style_entries_for_show(entries)
-    entries.map { |entry|
+    entries.map do |entry|
       entry
-      .gsub(/["{}\\]/, '')
-      .gsub(/startTime=>([^,]*), endTime=>([^,]*)$/) do |match|
-        "Start: #{date_or_time($1)} ---> End: #{date_or_time($2)};"
+        .gsub(/["{}\\]/, '')
+        .gsub(/startTime=>([^,]*), endTime=>([^,]*)$/) do |_match|
+        "Start: #{date_or_time(::Regexp.last_match(1))} ---> End: #{date_or_time(::Regexp.last_match(2))};"
       end
-    }
+    end
   end
 
   def row_number(table, masla)
