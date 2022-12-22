@@ -14,11 +14,11 @@ class PivotJoinTable
 
   def quoted_columns
     # Quote the columns for postgresql
-    new_columns().map { |p| "\"#{p}\"" }
+    new_columns.map { |p| "\"#{p}\"" }
   end
 
   def all_columns
-    @to_join_table.column_names + new_columns()
+    @to_join_table.column_names + new_columns
   end
 
   def pivot_table
@@ -41,7 +41,9 @@ class PivotJoinTable
 
     # construct the ct portion of the crosstab query
     ct = Arel::Nodes::NamedFunction
-    .new('ct', [Arel::Nodes::TableAlias.new(Arel.sql(@to_pivot_index), Arel.sql('bigint')), *quoted_columns().map { |name| Arel::Nodes::TableAlias.new(Arel.sql(name), Arel.sql(to_pivot_table_sql_type)) }])
+      .new('ct', [Arel::Nodes::TableAlias.new(Arel.sql(@to_pivot_index), Arel.sql('bigint')), *quoted_columns.map do |name|
+                                                                                                Arel::Nodes::TableAlias.new(Arel.sql(name), Arel.sql(to_pivot_table_sql_type))
+                                                                                              end])
 
     # build the crosstab(...) AS ct(...) statement
     crosstab = Arel::Nodes::As.new(
@@ -55,11 +57,12 @@ class PivotJoinTable
 
   def join_table
     sub = Arel::Table.new('subq')
-    sub_q = Arel::Nodes::As.new(pivot_table(), Arel.sql(sub.name))
+    sub_q = Arel::Nodes::As.new(pivot_table, Arel.sql(sub.name))
 
     @to_join_table
-      .joins(Arel::Nodes::OuterJoin.new(sub_q, Arel::Nodes::On.new(@to_join_table.arel_table[:id].eq(sub[@to_pivot_index]))))
-      .select(@to_join_table.arel_table[Arel.star], *new_columns().map { |c| sub[c.intern] })
+      .joins(Arel::Nodes::OuterJoin.new(sub_q,
+                                        Arel::Nodes::On.new(@to_join_table.arel_table[:id].eq(sub[@to_pivot_index]))))
+      .select(@to_join_table.arel_table[Arel.star], *new_columns.map { |c| sub[c.intern] })
     # @cols = to_join_table.column_names + cols
   end
 end
