@@ -8,18 +8,21 @@ module MaslasHelper
   end
 
   def date_or_time(date)
-    date.include?('T') ? style_dateTime(Date.parse(date)) : style_date(Date.parse(date))
+    date.include?('T') ? style_date_time(Date.parse(date)) : style_date(Date.parse(date))
+  end
+
+  def style_entry(entry)
+    entry
+      .gsub(/["{}\\]/, '')
+      .gsub(/startTime=>([^,]*), endTime=>([^,]*)$/) do |_match|
+      "S: #{date_or_time(::Regexp.last_match(1))} E: #{date_or_time(::Regexp.last_match(2))}"
+    end
   end
 
   # S=>2022-12-01, E=>2022-12-08
-  def style_entries(entries)
-    entries.map do |entry|
-      entry
-        .gsub(/["{}\\]/, '')
-        .gsub(/startTime=>([^,]*), endTime=>([^,]*)$/) do |_match|
-        "S: #{date_or_time(::Regexp.last_match(1))} E: #{date_or_time(::Regexp.last_match(2))}"
-      end
-    end
+  def style_entries(entries, limit = 2)
+    entries = entries[0..limit] if entries.size > limit
+    entries.map { |entry| style_entry(entry) }.join("\n\n")
   end
 
   def style_entries_for_show(entries)
@@ -32,15 +35,12 @@ module MaslasHelper
     end
   end
 
-  def row_number(table, masla)
-    table.row_headers.index(masla)
-  end
+  def style_data(data, key)
+    return style_entries(data, 2) if key == 'entries'
+    return raw(data[0..120]) if key.include? 'answer'
+    return 'True' if data == 't'
+    return style_date_time(data) if key[-3..] == '_at'
 
-  def find_row(table, masla)
-    table.rows[row_number(table, masla)]
-  end
-
-  def row_data(table, masla)
-    find_row(table, masla).data
+    data
   end
 end
