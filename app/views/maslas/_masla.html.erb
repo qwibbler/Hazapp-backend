@@ -1,4 +1,4 @@
 <% @cols.each do |col| %>
-  <td><%= style_data(masla[col], col) %></td>
+  <td><%= link_to style_data(masla[col], col), masla %></td>
 <% end %>
 <td><%= button_to "X", masla, method: :delete %>

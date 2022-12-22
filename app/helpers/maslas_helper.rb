@@ -19,7 +19,6 @@ module MaslasHelper
     end
   end
 
-  # S=>2022-12-01, E=>2022-12-08
   def style_entries(entries, limit = 2)
     entries = entries[0..limit] if entries.size > limit
     entries.map { |entry| style_entry(entry) }.join("\n\n")
@@ -30,8 +29,9 @@ module MaslasHelper
       entry
         .gsub(/["{}\\]/, '')
         .gsub(/startTime=>([^,]*), endTime=>([^,]*)$/) do |_match|
-        "Start: #{date_or_time(::Regexp.last_match(1))} ---> End: #{date_or_time(::Regexp.last_match(2))};"
-      end
+          "#{date_or_time(::Regexp.last_match(1))},#{date_or_time(::Regexp.last_match(2))};"
+        end
+        .split(",")
     end
   end
 

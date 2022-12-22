@@ -1,34 +1,64 @@
-<p style="color: green"><%= notice %></p>
+<section class="container-fluid">
+  <p style="color: green"><%= notice %></p>
 
-<h1>Showing masla <%= @masla.id %></h1>
-<small>Created at: <%= @masla.created_at %></small>
-<br>
-<small>Updated at: <%= @masla.updated_at %></small>
-<br>
+  <div class="container m-5">
+    <h1 class="display-1">Masla <%= @masla.id %></h1>
+    <small>Created at: <%= style_date_time(@masla.created_at) %></small>
+    <br>
+    <small>Updated at: <%= style_date_time(@masla.updated_at) %></small>
+  </div>
 
-<h3>Masla Info:</h3>
-<b>maslaType:</b> <%= @masla.typeOfMasla %><br>
-<b>maslaInput:</b> <%= @masla.typeOfInput %><br>
-<% @masla.pre_maslas.each do |premasla| %>
-  <b><%= premasla.premasla %>:</b> <%= premasla.value %><br>
-<% end%>
+  <div class="container m-5">
+    <h2>Masla Info:</h2>
+    <dl class="row">
+      <dt class="col-sm-2">maslaType:</dt>
+      <dd class="col-sm-9"><%= @masla.typeOfMasla %></dd>
 
-<h3>Entries:</h3>
-<% style_entries_for_show(@masla.entries).each do |entry| %>
-  <span><%= entry %></span><br>
-<% end %>
+      <dt class="col-sm-2">maslaInput:</dt>
+      <dd class="col-sm-9"><%= @masla.typeOfInput %></dd>
 
-<h3>Answers:</h3>
-<h4>Urdu:</h4>
-<%= raw(@masla.answerUrdu) %>
-<h4>English:</h4>
-<%= raw(@masla.answerEnglish) %>
-<br>
-<br>
+      <% @masla.pre_maslas.each do |premasla| %>
+        <dt class="col-sm-2"><%= premasla.premasla %>:</dt>
+        <dd class="col-sm-9"><%= premasla.value == 't' ? 'True' : premasla.value %></dd>
+      <% end%>
+    </dl>
+  </div>
 
-<div>
-  <%# link_to "Edit this masla", edit_masla_path(@masla) %> |
-  <%= link_to "Back to maslas", maslas_path %>
+  <% unless @masla.entries.empty? %>
+    <div class="container m-5">
+      <h2>Entries:</h2>
+        <div class="row gx-auto">
+          <div class="col col-lg-2"><h3>Start:</h3></div>
+          <div class="col col-lg-2"><h3>End:</h3></div>
+        </div>
+        <% style_entries_for_show(@masla.entries).each do |entry| %>
+          <div class="row gx-auto">
+            <div class="col col-lg-2"><dd><%= entry[0] %></dd></div>
+            <div class="col col-lg-2"><dd><%= entry[1] %></dd></div>
+          </div>
+        <% end %>
+    </div>
+  <% end %>
 
-  <%= button_to "Destroy this masla", @masla, method: :delete %>
-</div>
+  <% unless @masla.answerEnglish.blank? %>
+    <div class="container m-5">
+        <h2>Answers:</h2>
+      <div class="row gx-5">
+        <div class="col">
+          <h3>Urdu:</h3>
+          <p><%= simple_format(@masla.answerUrdu) %></p>
+        </div>
+        <div class="col">
+          <h3>English:</h3>
+          <p><%= simple_format(@masla.answerEnglish) %></p>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <div class="container m-5">
+    <%# link_to "Edit this masla", edit_masla_path(@masla) %> |
+    <%= link_to "Back to maslas", maslas_path %>
+    <%= button_to "Destroy this masla", @masla, method: :delete %>
+  </div>
+</section>
