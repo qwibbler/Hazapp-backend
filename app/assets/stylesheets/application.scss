@@ -3,10 +3,10 @@
 table.index {
   text-align: center;
   margin: 1rem 0.5rem;
-}
 
-.thead th {
-  background-color: #c6c6c6 !important;
-  position: sticky;
-  top: 0;
+  .sticky_head th {
+    background-color: #c6c6c6 !important;
+    position: sticky;
+    top: 0;
+  }
 }

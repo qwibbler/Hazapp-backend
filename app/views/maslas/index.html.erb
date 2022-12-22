@@ -6,7 +6,7 @@
   <thead class="sticky_head">
     <th scope="col"></th>
     <% @cols[1..].each do |col| %>
-      <th scope="col"><%= col %></th>
+      <th scope="col"><%= words_from_camelcase(col) %></th>
     <% end %>
     <th scope="col"></th>
   </thead>

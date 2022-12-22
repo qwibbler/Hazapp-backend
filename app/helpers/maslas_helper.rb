@@ -35,6 +35,12 @@ module MaslasHelper
     end
   end
 
+  def words_from_camelcase(col)
+    return col if col.include? 'answer'
+
+    col.gsub(/[A-Z]/) { |match| " #{match}" }.titleize
+  end
+
   def style_data(data, key)
     return style_entries(data, 2) if key == 'entries'
     return raw(data[0..120]) if key.include? 'answer'
