@@ -12,14 +12,36 @@ class PivotJoinTable
     @to_pivot_table.distinct.pluck(@pivot_column).sort
   end
 
-  # Quote the columns for postgresql
-  def quoted_columns
-    quote_list(pivoted_column_names)
-  end
-
   # Get all the columns after pivoting and joining
   def all_columns
     @to_join_table.column_names + pivoted_column_names
+  end
+
+  # Generate crosstab queries
+  def pivot_table_crosstab_queries
+    # extra_info Arel::Table
+    pivot_table_arel = @to_pivot_table.arel_table
+
+    # SQL data type for the MoreInfo.info column
+    pivot_table_sql_type = @to_pivot_table.columns.find { |c| c.name == @pivot_column }&.sql_type
+
+    # Part 1 of crosstab
+    qry_txt = pivot_table_arel.project(
+      pivot_table_arel[@pivot_index],
+      pivot_table_arel[@pivot_column],
+      pivot_table_arel[@pivot_value]
+    )
+    # Part 2 of the crosstab
+    cats = pivot_table_arel.project(pivot_table_arel[@pivot_column]).distinct
+    # construct the ct portion of the crosstab query
+    ActiveRecord::Base.connection.execute('CREATE EXTENSION IF NOT EXISTS tablefunc;')
+    ct = Arel::Nodes::NamedFunction.new('ct', [
+                                          Arel::Nodes::TableAlias.new(Arel.sql("\"#{@pivot_index}\""), Arel.sql('bigint')),
+                                          *pivoted_column_names.map do |name|
+                                            Arel::Nodes::TableAlias.new(Arel::Table.new(name), Arel.sql(pivot_table_sql_type))
+                                          end
+                                        ])
+    [qry_txt, cats, ct]
   end
 
   # Query to pivot the table
@@ -49,39 +71,6 @@ class PivotJoinTable
       .joins(Arel::Nodes::OuterJoin.new(sub_q,
                                         Arel::Nodes::On.new(@to_join_table.arel_table[:id].eq(sub[@pivot_index]))))
       .select(@to_join_table.arel_table[Arel.star], *pivoted_column_names.map { |c| sub[c.intern] })
-  end
-
-  private
-
-  def quote_list(list)
-    list.map { |p| "\"#{p}\"" }
-  end
-
-  # Generate crosstab queries
-  def pivot_table_crosstab_queries
-    # extra_info Arel::Table
-    pivot_table_arel = @to_pivot_table.arel_table
-
-    # SQL data type for the MoreInfo.info column
-    pivot_table_sql_type = @to_pivot_table.columns.find { |c| c.name == @pivot_column }&.sql_type
-
-    # Part 1 of crosstab
-    qry_txt = pivot_table_arel.project(
-      pivot_table_arel[@pivot_index],
-      pivot_table_arel[@pivot_column],
-      pivot_table_arel[@pivot_value]
-    )
-    # Part 2 of the crosstab
-    cats = pivot_table_arel.project(pivot_table_arel[@pivot_column]).distinct
-    # construct the ct portion of the crosstab query
-    ActiveRecord::Base.connection.execute('CREATE EXTENSION IF NOT EXISTS tablefunc;')
-    ct = Arel::Nodes::NamedFunction.new('ct', [
-                                          Arel::Nodes::TableAlias.new(Arel.sql(@pivot_index), Arel.sql('bigint')),
-                                          *quoted_columns.map do |name|
-                                            Arel::Nodes::TableAlias.new(Arel.sql(name), Arel.sql(pivot_table_sql_type))
-                                          end
-                                        ])
-    [qry_txt, cats, ct]
   end
 end
 
