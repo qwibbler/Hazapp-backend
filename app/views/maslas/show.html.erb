@@ -11,19 +11,19 @@
   <div class="container m-5">
     <h2>Masla Info:</h2>
     <div class="row">
-      <dt class="col col-auto">maslaType:</dt>
-      <dd class="col col-auto"><%= @masla.typeOfMasla %></dd>
+      <dt class="col col-auto">Masla Type:</dt>
+      <dd class="col col-auto"><%= words_from_camelcase(@masla.typeOfMasla) %></dd>
     </div>
 
     <div class="row">
-      <dt class="col col-auto">maslaInput:</dt>
-      <dd class="col col-auto"><%= @masla.typeOfInput %></dd>
+      <dt class="col col-auto">Masla Input:</dt>
+      <dd class="col col-auto"><%= words_from_camelcase(@masla.typeOfInput) %></dd>
     </div>
 
-      <% @masla.pre_maslas.each do |premasla| %>
+      <% @masla.more_infos.each do |more_info| %>
     <div class="row">
-        <dt class="col col-auto"><%= premasla.premasla %>:</dt>
-        <dd class="col col-auto"><%= premasla.value == 't' ? 'True' : premasla.value %></dd>
+        <dt class="col col-auto"><%= words_from_camelcase(more_info.info) %>:</dt>
+        <dd class="col col-auto"><%= more_info.value == 't' ? 'True' : more_info.value %></dd>
     </div>
       <% end%>
   </div>

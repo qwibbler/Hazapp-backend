@@ -10,30 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_09_152229) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_22_204700) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "tablefunc"
 
   create_table "maslas", force: :cascade do |t|
     t.string "uid", null: false
     t.string "typeOfInput", default: "dateOnly"
     t.string "typeOfMasla", default: "mutada"
     t.string "entries", default: [], array: true
-    t.string "answerUrdu", default: ""
-    t.string "answerEnglish", default: ""
+    t.text "answerEnglish", default: ""
+    t.text "answerUrdu", default: ""
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["uid"], name: "index_maslas_on_uid", unique: true
   end
 
-  create_table "pre_maslas", force: :cascade do |t|
+  create_table "more_infos", force: :cascade do |t|
     t.bigint "masla_id", null: false
-    t.string "premasla", null: false
+    t.string "info", null: false
     t.string "value", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["masla_id"], name: "index_pre_maslas_on_masla_id"
+    t.index ["masla_id"], name: "index_more_infos_on_masla_id"
   end
 
-  add_foreign_key "pre_maslas", "maslas"
+  add_foreign_key "more_infos", "maslas"
 end

@@ -1,3 +1,3 @@
 class Masla < ApplicationRecord
-  has_many :pre_maslas, dependent: :destroy
+  has_many :more_infos, dependent: :destroy
 end

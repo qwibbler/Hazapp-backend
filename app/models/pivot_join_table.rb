@@ -62,7 +62,7 @@ class PivotJoinTable
     # extra_info Arel::Table
     pivot_table_arel = @to_pivot_table.arel_table
 
-    # SQL data type for the premasla.premasla column
+    # SQL data type for the MoreInfo.info column
     pivot_table_sql_type = @to_pivot_table.columns.find { |c| c.name == @pivot_column }&.sql_type
 
     # Part 1 of crosstab
@@ -74,6 +74,7 @@ class PivotJoinTable
     # Part 2 of the crosstab
     cats = pivot_table_arel.project(pivot_table_arel[@pivot_column]).distinct
     # construct the ct portion of the crosstab query
+    ActiveRecord::Base.connection.execute('CREATE EXTENSION IF NOT EXISTS tablefunc;')
     ct = Arel::Nodes::NamedFunction.new('ct', [
                                           Arel::Nodes::TableAlias.new(Arel.sql(@pivot_index), Arel.sql('bigint')),
                                           *quoted_columns.map do |name|
@@ -95,15 +96,15 @@ end
 #     FROM
 #       crosstab(
 #         'SELECT
-#           \"pre_maslas\".\"masla_id\",
-#           \"pre_maslas\".\"premasla\",
-#           \"pre_maslas\".\"value\"
+#           \"more_info\".\"masla_id\",
+#           \"more_info\".\"info\",
+#           \"more_info\".\"value\"
 #         FROM
-#           \"pre_maslas\"',
+#           \"more_info\"',
 #         'SELECT DISTINCT
-#           \"pre_maslas\".\"premasla\"
+#           \"more_info\".\"info\"
 #         FROM
-#           \"pre_maslas\"')
+#           \"more_info\"')
 #         AS
 #           ct(masla_id bigint,
 #             \"aadatHaiz\" character varying,

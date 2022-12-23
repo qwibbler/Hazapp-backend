@@ -4,7 +4,8 @@ class MaslasController < ApplicationController
 
   # GET /maslas or /maslas.json
   def index
-    pivot_join_table = PivotJoinTable.new(PreMasla, 'premasla', 'masla_id', 'value', Masla)
+    render html: '<h1>No Maslas</h1>'.html_safe if Masla.count.zero?
+    pivot_join_table = PivotJoinTable.new(MoreInfo, 'info', 'masla_id', 'value', Masla)
 
     @maslas = pivot_join_table.join_table.order(:id)
     @cols = pivot_join_table.all_columns
@@ -31,7 +32,7 @@ class MaslasController < ApplicationController
     respond_to do |format|
       if @masla.save
         params[:others].each do |other|
-          PreMasla.create(masla: @masla, premasla: other[0], value: other[1]) unless other[1].blank? || other[1].nil?
+          MoreInfo.create(masla: @masla, info: other[0], value: other[1]) unless other[1].blank? || other[1].nil?
         end
         format.html { redirect_to masla_url(@masla), notice: 'Masla was successfully created.' }
         format.json { render :show, status: :created, location: @masla }
