@@ -9,12 +9,12 @@ class PivotJoinTable
 
   # Get all distinct premaslas to build columns
   def pivoted_column_names
-    @to_pivot_table.distinct.pluck(@pivot_column).sort
+    @to_pivot_table.distinct.pluck(@pivot_column)
   end
 
   # Get all the columns after pivoting and joining
   def all_columns
-    @to_join_table.column_names + pivoted_column_names
+    @to_join_table.column_names + pivoted_column_names.sort
   end
 
   # Generate crosstab queries
