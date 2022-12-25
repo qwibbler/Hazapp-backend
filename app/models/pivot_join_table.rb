@@ -34,7 +34,6 @@ class PivotJoinTable
     # Part 2 of the crosstab
     cats = pivot_table_arel.project(pivot_table_arel[@pivot_column]).distinct
     # construct the ct portion of the crosstab query
-    ActiveRecord::Base.connection.execute('CREATE EXTENSION IF NOT EXISTS tablefunc;')
     ct = Arel::Nodes::NamedFunction.new('ct', [
                                           Arel::Nodes::TableAlias.new(Arel.sql("\"#{@pivot_index}\""), Arel.sql('bigint')),
                                           *pivoted_column_names.map do |name|
