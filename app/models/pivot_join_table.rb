@@ -35,9 +35,11 @@ class PivotJoinTable
     cats = pivot_table_arel.project(pivot_table_arel[@pivot_column]).distinct
     # construct the ct portion of the crosstab query
     ct = Arel::Nodes::NamedFunction.new('ct', [
-                                          Arel::Nodes::TableAlias.new(Arel.sql("\"#{@pivot_index}\""), Arel.sql('bigint')),
+                                          Arel::Nodes::TableAlias.new(Arel.sql("\"#{@pivot_index}\""),
+                                                                      Arel.sql('bigint')),
                                           *pivoted_column_names.map do |name|
-                                            Arel::Nodes::TableAlias.new(Arel::Table.new(name), Arel.sql(pivot_table_sql_type))
+                                            Arel::Nodes::TableAlias.new(Arel::Table.new(name),
+                                                                        Arel.sql(pivot_table_sql_type))
                                           end
                                         ])
     [qry_txt, cats, ct]

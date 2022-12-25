@@ -5,10 +5,14 @@ class MaslasController < ApplicationController
   # GET /maslas or /maslas.json
   def index
     render html: '<h1>No Maslas</h1>'.html_safe if Masla.count.zero?
-    pivot_join_table = PivotJoinTable.new(MoreInfo, 'info', 'masla_id', 'value', Masla)
-
-    @maslas = pivot_join_table.join_table.order(:id)
-    @cols = pivot_join_table.all_columns
+    if MoreInfo.count.zero?
+      @maslas = Masla.all
+      @cols = Masla.column_names
+    else
+      pivot_join_table = PivotJoinTable.new(MoreInfo, 'info', 'masla_id', 'value', Masla)
+      @maslas = pivot_join_table.join_table.order(:id)
+      @cols = pivot_join_table.all_columns
+    end
 
     @limit_entries = 1
     @limit_answer = 55
