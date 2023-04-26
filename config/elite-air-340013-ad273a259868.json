@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "elite-air-340013",
+  "private_key_id": "ad273a25986829aa9bc00544ff5191d3657a0c8c",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQChRRUNb7+Z4KRI\nWdniFVooEixuyPV8jk4KOVEaNnsITebfcbdDpKxmswkq4JxPRo8n3cYii7As6ngy\nhEjkYIAV4r6el4gY/JYQewHmIFb/Q9HAPmF/i1zm09J4o+vVv/eZxEsPtqANnflU\nyJmz6q/vbx4mj024ncGjJZHNtbhziXx5oO5IHxKLqQ9OPKlL0+y9OmO9zhaELZA0\nhuGhRP97T2olXT5FlfsGaZnzNpVeqMpQV44QTk9sv9/FryO7MWRv8t6voWAioC76\naA2DYeCLRoJoQUW034Jt7Z33XL7GvOoT2zw1Bk0nEsvWZccXb8/ijIxTOPXhITb9\nn82rlSsNAgMBAAECggEAAQLAlMa6RfHfPbfYcn8NQ1qHzkLyrO7sZMqCrF4ii8UH\nOSfKjQE7dmJRYKQrPqDz1T1h2EYVWta2XaSwG0RSkTCMXsyW1QdCPoSy2JkjynJH\nnoOVk1nRgX3a4Bgw6nRLTjqpeMX9f1BZ53LhabwDEcZZw0abJ1jPxaC+5vHoX8r+\nfYHfFmTvoDNwpWB3Jrusooa8jMSsGQHy7pcpEkzRPdNaU9gqpcp1U0uz3ZiPpjYc\n9sdLc6fNwnkyRjoJePAs0TQRc0ZcQ/ndkbl8u0Dkh7MGACtxa45ctZBcby+NEPTg\nKgcUNbk9kQ7yActge0oFtb7k6q3ubyIfpZB7IhHgaQKBgQDiy6mCWhDgfAupx2sF\nGbXHU2NueAwnmO9lCAq7s+9p6hdXKVtMpuxLgCPbh1mFnonaolq25y0kuR8VYm/E\nPLUA4Fh0gEHHGt87ct4h7jc8OidmhqkWrDtDMgLyHgGb58/RwdeP7+hYD2Vk3s++\nD4UFT2GMQFZP3keIlNJ/KsTFWQKBgQC2CVvckpQujDlN9RCSdxh2n10QsUkbNqCG\nJMrja3S4iTa7c10ZYOUiMzT4qjv0UD1dwDZY+8jfvSj43iU6bRlJ7XlJaA0l1Liq\nPc3hxbPkTGnuG5eBJcInSPYL9MnDCpcC4OYTinwLCBaw1CIYMnOYZFv64tV9TcKa\nMUDL5o241QKBgCr6EwYbkSUo/IDQxEv0IklCWQ4++3apeXv4uSf2ogC9Fm0y7hUp\ncI+iGalpDaLPdyoSKASO7DQQTH6d57YVFuuyl7CD+XMEeZbnXoapgJgOIRdBn1sn\nihdiq8I7w2xK0kvaYsHo4WuGh11FB7Lpd/iYoVCVhIWgBogwQ29LqHwJAoGBAIpd\n7MRpaldDYN9/0pvyCNdJ5Tyl9VLJIBU27D0XVb5bFg4/71k2DJUFZVNKWo4nW63i\nR601nYdryjP470VM3jcSWenRPIUv/znwBomBdG6pIq/Jq0yQfdbMn7GQ3LfzWbvn\nZRsfXZApEs5QQKYx2ynPxxaZyvsW2z/HBmC2m60NAoGBAJj+jOuUbUvCPJufJ1/5\nh6hWmlFRo5sqnnf0cQRRex2TIVIJXgo2VfydxntmI9dQlLaMrX3kHPTM0P7vyfzg\n+QD2YfWDU8ijoAx//N/x7RKpiG1jpXOdD5SD2lNpQSWJHNJy3/sfxpJsI5YxuClx\nPkVe46I6lnq4hZ1AaxTnNZ79\n-----END PRIVATE KEY-----\n",
+  "client_email": "hazapp-service@elite-air-340013.iam.gserviceaccount.com",
+  "client_id": "110364358328954637811",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/hazapp-service%40elite-air-340013.iam.gserviceaccount.com"
+}
