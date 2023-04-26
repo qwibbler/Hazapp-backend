@@ -5,8 +5,8 @@ class CreateMaslas < ActiveRecord::Migration[7.0]
       t.string :typeOfInput, default: 'dateOnly'
       t.string :typeOfMasla, default: 'mutada'
       t.string :entries, array: true, default: []
-      t.string :answerUrdu, default: ''
-      t.string :answerEnglish, default: ''
+      t.text :answerEnglish, default: ''
+      t.text :answerUrdu, default: ''
 
       t.timestamps
     end

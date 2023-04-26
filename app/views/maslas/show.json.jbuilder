@@ -1,1 +1,1 @@
-json.partial! "maslas/masla", masla: @masla
+json.partial! 'maslas/masla', masla: @masla
