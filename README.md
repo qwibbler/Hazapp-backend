@@ -177,7 +177,7 @@ Example:
 
 - GitHub: [@qwibbler](https://github.com/qwibbler)
 - Twitter: [@hmemaz](https://twitter.com/hmemaz)
-- LinkedIn: [Humaira Zaman](https://linkedin.com/in/humaira_zaman)
+- LinkedIn: [Humaira Zaman](https://linkedin.com/in/humaira-zaman)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
