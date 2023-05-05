@@ -19,7 +19,12 @@ class MaslasController < ApplicationController
   end
 
   # GET /maslas/1 or /maslas/1.json
-  def show; end
+  def show
+    respond_to do |format|
+      format.html
+      format.json { render :json => @masla.to_json(:include => :more_infos) }
+    end
+  end
 
   # GET /maslas/new
   # def new
