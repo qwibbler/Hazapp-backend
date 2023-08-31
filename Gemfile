@@ -80,3 +80,4 @@ end
 gem 'ruby-lsp', '~> 0.3.6', group: :development
 
 gem 'devise', '~> 4.9'
+gem 'devise-jwt'
