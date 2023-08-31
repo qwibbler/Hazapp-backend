@@ -22,9 +22,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_08_31_072041) do
     t.string "entries", default: [], array: true
     t.text "answerEnglish", default: ""
     t.text "answerUrdu", default: ""
+    t.string "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["uid"], name: "index_maslas_on_uid", unique: true
+    t.index ["user_id"], name: "index_maslas_on_user_id"
   end
 
   create_table "more_infos", force: :cascade do |t|

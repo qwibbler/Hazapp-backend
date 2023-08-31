@@ -1,0 +1,20 @@
+<p style="color: green"><%= notice %></p>
+
+<h1 class="display-1"><%= @user.username %></h1>
+
+<table class='index table table-hover table-bordered table-striped rounded'>
+  <thead class="sticky_head">
+    <th scope="col"></th>
+    <% @cols[1..].each do |col| %>
+      <th scope="col"><%= words_from_camelcase(col) %></th>
+    <% end %>
+    <th scope="col"></th>
+  </thead>
+  <tbody class="table-group-divider">
+    <% @maslas.each do |masla| %>
+      <tr>
+        <%= render masla %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
