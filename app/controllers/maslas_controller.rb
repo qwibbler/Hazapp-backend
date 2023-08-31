@@ -22,7 +22,7 @@ class MaslasController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      format.json { render :json => @masla.to_json(:include => :more_infos) }
+      format.json { render json: @masla.to_json(include: :more_infos) }
     end
   end
 
@@ -43,7 +43,7 @@ class MaslasController < ApplicationController
         params[:others].each do |other|
           MoreInfo.create(masla: @masla, info: other[0], value: other[1]) unless other[1].blank? || other[1].nil?
         end
-        format.html { redirect_to masla_url(@masla), notice: 'Masla was successfully created.' }
+        format.html { redirect_to masla_url(@masla), notice: I18n.t('masla_successfully_created') }
         format.json { render :show, status: :created, location: @masla }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -56,7 +56,7 @@ class MaslasController < ApplicationController
   def update
     respond_to do |format|
       if @masla.update(masla_params)
-        format.html { redirect_to masla_url(@masla), notice: 'Masla was successfully updated.' }
+        format.html { redirect_to masla_url(@masla), notice: I18n.t('masla_successfully_updated') }
         format.json { render :show, status: :ok, location: @masla }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -70,7 +70,7 @@ class MaslasController < ApplicationController
     @masla.destroy
 
     respond_to do |format|
-      format.html { redirect_to maslas_url, notice: 'Masla was successfully destroyed.' }
+      format.html { redirect_to maslas_url, notice: I18n.t('masla_successfully_deleted') }
       format.json { head :no_content }
     end
   end

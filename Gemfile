@@ -56,6 +56,7 @@ group :development, :test do
   gem 'debug'
   gem 'rack-cors'
   gem 'rubocop'
+  gem 'rubocop-rails'
 end
 
 group :development do
@@ -78,4 +79,4 @@ end
 
 gem 'ruby-lsp', '~> 0.3.6', group: :development
 
-gem "devise", "~> 4.9"
+gem 'devise', '~> 4.9'

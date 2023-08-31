@@ -42,9 +42,9 @@ module MaslasHelper
     col.gsub(/[A-Z]/) { |match| " #{match}" }.titleize
   end
 
-  def style_data(data, key)
-    return style_entries(data, @limit_entries) if key == 'entries'
-    return raw(data[10..@limit_answer]) if key.include? 'answer'
+  def style_data(data, key, limit_entries = 1, limit_answer = 55)
+    return style_entries(data, limit_entries) if key == 'entries'
+    return sanitize(data[10..limit_answer]) if key.include? 'answer'
     return 'True' if data == 't'
     return style_date_time(data) if key[-3..] == '_at'
 

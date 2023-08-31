@@ -1,5 +1,5 @@
 <td><%= link_to masla.id, masla %></td>
 <% @cols[1..].each do |col| %>
-  <td><%= style_data(masla[col], col) %></td>
+  <td><%= style_data(masla[col], col, @limit_entries, @limit__answer) %></td>
 <% end %>
 <td><%= button_to "X", masla, method: :delete %>
