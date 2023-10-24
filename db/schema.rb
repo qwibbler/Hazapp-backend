@@ -10,10 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_08_31_072041) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_01_005103) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
+
+  create_table "jwt_denylists", force: :cascade do |t|
+  end
 
   create_table "maslas", force: :cascade do |t|
     t.string "uid", null: false

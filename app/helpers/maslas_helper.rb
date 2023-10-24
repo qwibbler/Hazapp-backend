@@ -44,7 +44,9 @@ module MaslasHelper
 
   def style_data(data, key, limit_entries = 1, limit_answer = 55)
     return style_entries(data, limit_entries) if key == 'entries'
-    return sanitize(data[10..limit_answer]) if key.include? 'answer'
+    if (key.include?('answer') || key.include?('question')) && data.length > limit_answer
+      return sanitize((data[10..limit_answer]))
+    end
     return 'True' if data == 't'
     return style_date_time(data) if key[-3..] == '_at'
 
