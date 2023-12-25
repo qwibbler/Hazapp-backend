@@ -4,6 +4,9 @@ class MaslasController < ApplicationController
 
   # GET /maslas or /maslas.json
   def index
+    Rails.logger.debug '==========='
+    Rails.logger.debug current_user
+    Rails.logger.debug '==========='
     render html: '<h1>No Maslas</h1>'.html_safe if Masla.count.zero?
     if MoreInfo.count.zero?
       @maslas = Masla.all
@@ -36,6 +39,11 @@ class MaslasController < ApplicationController
 
   # POST /maslas or /maslas.json
   def create
+    Rails.logger.debug '==========='
+    Rails.logger.debug current_user
+    Rails.logger.debug :current_user
+    Rails.logger.debug '==========='
+
     @masla = Masla.new(masla_params)
 
     respond_to do |format|

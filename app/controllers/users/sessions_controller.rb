@@ -4,7 +4,17 @@ class Users::SessionsController < Devise::SessionsController
   private
 
   def respond_with(_resource, _opts = {})
+    Rails.logger.debug '==============='
+    Rails.logger.debug current_user
+    current_user ? log_in_success : log_in_failure
+  end
+
+  def log_in_success
     render json: { message: "Logged: #{current_user.id}" }, status: :ok
+  end
+
+  def log_in_failure
+    render json: { message: 'Not logged in' }, status: :unauthorized
   end
 
   def respond_to_on_destroy
