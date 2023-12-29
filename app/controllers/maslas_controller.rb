@@ -4,9 +4,10 @@ class MaslasController < ApplicationController
 
   # GET /maslas or /maslas.json
   def index
-    Rails.logger.debug '==========='
+    Rails.logger.debug '==============='
+    Rails.logger.debug "current_user"
     Rails.logger.debug current_user
-    Rails.logger.debug '==========='
+    Rails.logger.debug '==============='
     render html: '<h1>No Maslas</h1>'.html_safe if Masla.count.zero?
     if MoreInfo.count.zero?
       @maslas = Masla.all
@@ -40,6 +41,11 @@ class MaslasController < ApplicationController
   # POST /maslas or /maslas.json
   def create
     Rails.logger.debug '==========='
+    Rails.logger.debug request.headers['Authorization'].split[1]
+    jwt_payload = JWT.decode(request.headers['Authorization'].split[1], '00bd528dde1bacff485ccbf948202cc5c60264573308576d188bfd41aafbfe1985394ce4396deb8d2238c4b304e3ea467565906b73f04bf77e93b50951a0aa5b')
+    Rails.logger.debug jwt_payload
+
+    current_user = User.find(jwt_payload.first['sub'])
     Rails.logger.debug current_user
     Rails.logger.debug :current_user
     Rails.logger.debug '==========='

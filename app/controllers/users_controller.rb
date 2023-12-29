@@ -25,7 +25,7 @@ class UsersController < ApplicationController
   end
 
   # Only allow a list of trusted parameters through.
-  def masla_params
+  def user_params
     params.require(:user).permit(:username, :password)
   end
 end
