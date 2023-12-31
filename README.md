@@ -171,8 +171,6 @@ Example:
 
 ## 👥 Authors <a name="authors"></a>
 
-> Mention all of the collaborators of this project.
-
 👤 **Author1**
 
 - GitHub: [@qwibbler](https://github.com/qwibbler)
@@ -213,8 +211,6 @@ If you like this project, please feel free to contribute.
 
 ## 🙏 Acknowledgments <a name="acknowledgements"></a>
 
-> Give credit to everyone who inspired your codebase.
-
 I would like to thank Safarjal without whom this project would never have even started. I would also like to thank Suffah Online for considering this project a worthwhile investment for their time and efforts.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -229,7 +225,7 @@ I would like to thank Safarjal without whom this project would never have even s
 
 - **How do I log in to save my Maslas under my name?**
 
-  - Unfortunately, we currently have no support for users. We'll be getting right on that, IA!
+  - Unfortunately, we currently have no support for users. We'll be getting right on that, iA!
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

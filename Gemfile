@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.1.2'
+ruby '3.1.4'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'rails', '~> 7.0.4'
@@ -56,6 +56,7 @@ group :development, :test do
   gem 'debug'
   gem 'rack-cors'
   gem 'rubocop'
+  gem 'rubocop-rails'
 end
 
 group :development do
@@ -77,3 +78,6 @@ group :test do
 end
 
 gem 'ruby-lsp', '~> 0.3.6', group: :development
+
+gem 'devise', '~> 4.9'
+gem 'devise-jwt'

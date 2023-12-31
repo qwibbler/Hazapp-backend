@@ -31,3 +31,10 @@
 
 en:
   maslas: "Maslas"
+  masla_successfully_created: "Masla successfully created"
+  masla_successfully_updated: "Masla successfully updated"
+  masla_successfully_deleted: "Masla successfully deleted"
+  more_info: "PreMasla Info"
+  more_info_successfully_created: "PreMasla Info successfully created"
+  more_info_successfully_updated: "PreMasla Info successfully updated"
+  more_info_successfully_deleted: "PreMasla Info successfully deleted"

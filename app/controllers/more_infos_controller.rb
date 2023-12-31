@@ -1,5 +1,5 @@
 class MoreInfosController < ApplicationController
-  before_action :set_more_info, only: %i[show edit update destroy]
+  before_action :set_more_info, only: %i[update destroy]
 
   # GET /more_infos or /more_infos.json
   # def index
@@ -23,7 +23,7 @@ class MoreInfosController < ApplicationController
 
     respond_to do |format|
       if @more_info.save
-        format.html { redirect_to more_info_url(@more_info), notice: 'More info was successfully created.' }
+        format.html { redirect_to more_info_url(@more_info), notice: I18n.t('more_info_successfully_created') }
         format.json { render :show, status: :created, location: @more_info }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -36,7 +36,7 @@ class MoreInfosController < ApplicationController
   def update
     respond_to do |format|
       if @more_info.update(more_info_params)
-        format.html { redirect_to more_info_url(@more_info), notice: 'More info was successfully updated.' }
+        format.html { redirect_to more_info_url(@more_info), notice: I18n.t('more_info_successfully_updated') }
         format.json { render :show, status: :ok, location: @more_info }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -50,7 +50,7 @@ class MoreInfosController < ApplicationController
     @more_info.destroy
 
     respond_to do |format|
-      format.html { redirect_to more_infos_url, notice: 'More info was successfully destroyed.' }
+      format.html { redirect_to more_infos_url, notice: I18n.t('more_info_successfully_deleted') }
       format.json { head :no_content }
     end
   end
