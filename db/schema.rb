@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_12_25_140009) do
+ActiveRecord::Schema[7.0].define(version: 2023_10_01_005103) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -22,15 +22,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_12_25_140009) do
   end
 
   create_table "maslas", force: :cascade do |t|
-    t.string "uid", null: false
     t.string "typeOfInput", default: "dateOnly"
     t.string "typeOfMasla", default: "mutada"
     t.string "entries", default: [], array: true
     t.text "answerEnglish", default: ""
     t.text "answerUrdu", default: ""
+    t.string "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["uid"], name: "index_maslas_on_uid", unique: true
+    t.index ["user_id"], name: "index_maslas_on_user_id"
   end
 
   create_table "more_infos", force: :cascade do |t|
