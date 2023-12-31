@@ -4,13 +4,10 @@ class MaslasController < ApplicationController
 
   # GET /maslas or /maslas.json
   def index
-    Rails.logger.debug '==============='
-    Rails.logger.debug "current_user"
-    Rails.logger.debug current_user
-    Rails.logger.debug '==============='
     render html: '<h1>No Maslas</h1>'.html_safe if Masla.count.zero?
     if MoreInfo.count.zero?
-      @maslas = Masla.all
+      @maslas = Masla.includes(:user).all
+      Rails.logger.debug @maslas
       @cols = Masla.column_names
     else
       pivot_join_table = PivotJoinTable.new(MoreInfo, 'info', 'masla_id', 'value', Masla)

@@ -42,13 +42,26 @@ module MaslasHelper
     col.gsub(/[A-Z]/) { |match| " #{match}" }.titleize
   end
 
-  def style_data(data, key, limit_entries = 1, limit_answer = 55)
+  def style_user_data(masla)
+    masla.user.username
+  end
+
+  def long_data_key?(key, data)
+    (key.include?('answer') || key.include?('question')) && data.length > 55
+  end
+
+  def style_long_data(data, limit_answer)
+    sanitize(data[10..limit_answer])
+  end
+
+  def style_data(masla, key, limit_entries = 1, limit_answer = 55)
+    return style_user_data(masla) if key.include?('user')
+
+    data = masla[key]
     return style_entries(data, limit_entries) if key == 'entries'
-    if (key.include?('answer') || key.include?('question')) && data.length > limit_answer
-      return sanitize((data[10..limit_answer]))
-    end
+    return style_long_data(data, limit_answer) if long_data_key?(key, data)
     return 'True' if data == 't'
-    return style_date_time(data) if key[-3..] == '_at'
+    return style_date_time(data) if key.end_with?('_at')
 
     data
   end
