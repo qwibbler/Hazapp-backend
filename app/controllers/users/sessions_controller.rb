@@ -4,13 +4,6 @@ class Users::SessionsController < Devise::SessionsController
   private
 
   def respond_with(_resource, _opts = {})
-    Rails.logger.debug '==============='
-    Rails.logger.debug current_user
-    Rails.logger.debug '==============='
-    Rails.logger.debug _resource
-    Rails.logger.debug '==============='
-    Rails.logger.debug _opts
-    Rails.logger.debug '==============='
     current_user ? log_in_success : log_in_failure
   end
 
