@@ -6,7 +6,7 @@ class MaslasController < ApplicationController
   def index
     render html: '<h1>No Maslas</h1>'.html_safe if Masla.count.zero?
     if MoreInfo.count.zero?
-      @maslas = Masla.all
+      @maslas = Masla.includes(:user).all
       @cols = Masla.column_names
     else
       pivot_join_table = PivotJoinTable.new(MoreInfo, 'info', 'masla_id', 'value', Masla)
@@ -22,7 +22,7 @@ class MaslasController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      format.json { render :json => @masla.to_json(:include => :more_infos) }
+      format.json { render json: @masla.to_json(include: :more_infos) }
     end
   end
 
@@ -36,14 +36,20 @@ class MaslasController < ApplicationController
 
   # POST /maslas or /maslas.json
   def create
+    jwt_payload = JWT.decode(request.headers['Authorization'].split[1],
+                             Rails.application.credentials.DEVISE_JWT_SECRET_KEY)
+
+    current_user = User.find(jwt_payload.first['sub'])
+
     @masla = Masla.new(masla_params)
+    @masla.user = current_user
 
     respond_to do |format|
       if @masla.save
         params[:others].each do |other|
           MoreInfo.create(masla: @masla, info: other[0], value: other[1]) unless other[1].blank? || other[1].nil?
         end
-        format.html { redirect_to masla_url(@masla), notice: 'Masla was successfully created.' }
+        format.html { redirect_to masla_url(@masla), notice: I18n.t('masla_successfully_created') }
         format.json { render :show, status: :created, location: @masla }
       else
         format.html { render :new, status: :unprocessable_entity }
@@ -56,7 +62,7 @@ class MaslasController < ApplicationController
   def update
     respond_to do |format|
       if @masla.update(masla_params)
-        format.html { redirect_to masla_url(@masla), notice: 'Masla was successfully updated.' }
+        format.html { redirect_to masla_url(@masla), notice: I18n.t('masla_successfully_updated') }
         format.json { render :show, status: :ok, location: @masla }
       else
         format.html { render :edit, status: :unprocessable_entity }
@@ -70,7 +76,7 @@ class MaslasController < ApplicationController
     @masla.destroy
 
     respond_to do |format|
-      format.html { redirect_to maslas_url, notice: 'Masla was successfully destroyed.' }
+      format.html { redirect_to maslas_url, notice: I18n.t('masla_successfully_deleted') }
       format.json { head :no_content }
     end
   end
