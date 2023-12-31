@@ -43,7 +43,7 @@ module MaslasHelper
   end
 
   def style_user_data(masla)
-    masla.user.username
+    link_to masla.user.username, user_path(masla.user)
   end
 
   def long_data_key?(key, data)

@@ -1,10 +1,17 @@
 class Users::SessionsController < Devise::SessionsController
-  respond_to :json
+  respond_to :json, :html
 
   private
 
   def respond_with(_resource, _opts = {})
-    current_user ? log_in_success : log_in_failure
+    respond_to do |format|
+      format.html do
+        render :new
+      end
+      format.json do
+        current_user ? log_in_success : log_in_failure
+      end
+    end
   end
 
   def log_in_success
