@@ -36,10 +36,12 @@ class MaslasController < ApplicationController
 
   # POST /maslas or /maslas.json
   def create
-    jwt_payload = JWT.decode(request.headers['Authorization'].split[1],
-                             Rails.application.credentials.DEVISE_JWT_SECRET_KEY)
-
-    current_user = User.find(jwt_payload.first['sub'])
+    token = request.headers['Authorization']
+    if !token.nil? && token != ''
+      jwt_payload = JWT.decode(token.split[1],
+                               Rails.application.credentials.DEVISE_JWT_SECRET_KEY)
+      current_user = User.find(jwt_payload.first['sub'])
+    end
 
     @masla = Masla.new(masla_params)
     @masla.user = current_user
