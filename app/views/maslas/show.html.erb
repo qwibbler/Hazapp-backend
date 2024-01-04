@@ -6,6 +6,8 @@
     <small>Created at: <%= style_date_time(@masla.created_at) %></small>
     <br>
     <small>Updated at: <%= style_date_time(@masla.updated_at) %></small>
+    <br>
+    <small>Created by: <%= @masla.user&.username&.titleize || 'Anonymous' %></small>
   </div>
 
   <div class="container m-5">
