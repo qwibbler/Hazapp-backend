@@ -18,10 +18,10 @@
     <% end %>
 
     <% if user_signed_in? %>
-    <div> Welcome <%= current_user.username %> </div>
+    <div> Welcome <%= current_user.username.titlecase %> </div>
       <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
     <% else %>
-      <%= button_to "Sign in", new_user_session_path %>
+      <%= button_to "Sign in", new_user_session_path, method: :get  %>
     <% end %>
 
     <%= yield %>

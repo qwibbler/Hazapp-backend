@@ -1,16 +1,23 @@
 class Users::SessionsController < Devise::SessionsController
   respond_to :json, :html
+  # clear_respond_to if request.format == 'json'
+
+  # def new
+  #   Rails.logger.debug request.format
+  #   # clear_respond_to if request.format == 'json'
+  #   super
+  #   # respond_to do |format|
+  #   #   format.html { redirect_to new_user_session_path }
+  #   #   format.json { super }
+  #   # end
+  # end
 
   private
 
   def respond_with(_resource, _opts = {})
     respond_to do |format|
-      format.html do
-        render :new
-      end
-      format.json do
-        current_user ? log_in_success : log_in_failure
-      end
+      format.html { render :new }
+      format.json { current_user ? log_in_success : log_in_failure }
     end
   end
 
@@ -23,7 +30,10 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def respond_to_on_destroy
-    current_user ? log_out_success : log_out_failure
+    respond_to do |format|
+      format.html { redirect_to root_path, notice: I18n.t('successfully_signed_out') }
+      format.json { current_user ? log_out_success : log_out_failure }
+    end
   end
 
   def log_out_success

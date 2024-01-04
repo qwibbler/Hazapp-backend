@@ -6,6 +6,8 @@
     <small>Created at: <%= style_date_time(@masla.created_at) %></small>
     <br>
     <small>Updated at: <%= style_date_time(@masla.updated_at) %></small>
+    <br>
+    <small>Created by: <%= @masla.user&.username&.titleize || 'Anonymous' %></small>
   </div>
 
   <div class="container m-5">
@@ -63,6 +65,8 @@
   <div class="container m-5">
     <%# link_to "Edit this masla", edit_masla_path(@masla) %>
     <%= link_to "Back to maslas", maslas_path, :class => "btn btn-secondary m-1" %>
-    <%= button_to "Destroy this masla", @masla, method: :delete, :class => "btn btn-secondary m-1" %>
+    <% if current_user && current_user.username == "admin" %>
+      <%= button_to "Destroy this masla", @masla, method: :delete, :class => "btn btn-secondary m-1" %>
+    <% end %>
   </div>
 </section>
