@@ -47,8 +47,8 @@ module MaslasHelper
     col.gsub(/[A-Z]/) { |match| " #{match}" }.titleize
   end
 
-  def style_user_data(masla)
-    link_to masla.user.username.titleize, user_path(masla.user)
+  def style_user_data(user)
+    link_to user.username.titleize, user_path(user)
   end
 
   def long_data_key?(key, data)
@@ -60,7 +60,7 @@ module MaslasHelper
   end
 
   def style_data(masla, key, limit_entries = 1, limit_answer = 55)
-    return style_user_data(masla) if key.include?('user')
+    return style_user_data(masla.user) if key.include?('user')
 
     data = masla[key]
     return style_entries(data, limit_entries) if key == 'entries'
