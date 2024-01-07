@@ -8,15 +8,22 @@ module MaslasHelper
   end
 
   def date_or_time(date)
+    return date unless date
+
     date.include?('T') ? style_date_time(Date.parse(date)) : style_date(Date.parse(date))
   end
 
   def style_entry(entry)
-    entry
-      .gsub(/["{}\\]/, '')
-      .gsub(/startTime=>([^,]*), endTime=>([^,]*)$/) do |_match|
-      "S:_#{date_or_time(::Regexp.last_match(1))} E:_#{date_or_time(::Regexp.last_match(2))}"
-    end
+    parsed_entry = eval(entry)
+
+    start_time = date_or_time(parsed_entry['startTime'])
+    end_time = date_or_time(parsed_entry['endTime'])
+    value = parsed_entry['value']
+    type = parsed_entry['type']
+
+    return "S:_#{start_time} E:_#{end_time}" unless start_time.nil?
+
+    "#{type.capitalize}: #{value}" unless value.nil?
   end
 
   def style_entries(entries, limit = 1)
