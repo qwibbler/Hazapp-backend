@@ -12,6 +12,9 @@ class MaslasController < ApplicationController
       pivot_join_table = PivotJoinTable.new({ to_join_table: Masla })
       @maslas = pivot_join_table.join_table.order(:id)
       @cols = pivot_join_table.all_columns
+      @cols.delete('updated_at')
+      @cols.insert(1, @cols.delete('created_at'))
+      @cols.insert(1, @cols.delete('user_id'))
     end
 
     @limit_answer = 55

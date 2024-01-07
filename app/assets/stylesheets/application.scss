@@ -8,9 +8,26 @@ table.index {
   text-align: center;
   margin: 1rem 0.5rem;
 
-  .sticky_head th {
+  thead th {
     background-color: #c6c6c6 !important;
+    position: -webkit-sticky; /* for Safari */
     position: sticky;
+    z-index: 100;
     top: 0;
+  }
+
+  tbody th {
+    background-color: #c6c6c6 !important;
+    border-right: 2px black solid;
+    position: -webkit-sticky; /* for Safari */
+    position: sticky;
+    z-index: 50;
+    left: 0;
+  }
+
+  .tcorner {
+    background-color: #979797 !important;
+    z-index: 150;
+    left: 0;
   }
 }
