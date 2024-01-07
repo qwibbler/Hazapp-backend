@@ -8,7 +8,7 @@ class UsersController < ApplicationController
       @maslas = @user.maslas
       @cols = @maslas.column_names
     else
-      pivot_join_table = PivotJoinTable.new(@user.more_infos, 'info', 'masla_id', 'value', @user.maslas)
+      pivot_join_table = PivotJoinTable.new({ to_pivot_table: @user.more_infos, to_join_table: @user.maslas })
       @maslas = pivot_join_table.join_table.order(:id)
       @cols = pivot_join_table.all_columns
     end
