@@ -13,7 +13,6 @@ class UsersController < ApplicationController
       @cols = pivot_join_table.all_columns
     end
 
-    @limit_entries = 1
     @limit_answer = 55
   end
 

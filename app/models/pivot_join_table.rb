@@ -1,10 +1,10 @@
 class PivotJoinTable
-  def initialize(to_pivot_table, to_pivot_column, to_pivot_index, pivot_value, to_join_table)
-    @to_pivot_table = to_pivot_table
-    @pivot_column = to_pivot_column
-    @pivot_index = to_pivot_index
-    @pivot_value = pivot_value
-    @to_join_table = to_join_table
+  def initialize(config = {})
+    @to_pivot_table = config[:to_pivot_table] || MoreInfo
+    @pivot_column = config[:to_pivot_column] || 'info'
+    @pivot_index = config[:to_pivot_index] || 'masla_id'
+    @pivot_value = config[:pivot_value] || 'value'
+    @to_join_table = config[:to_join_table] || Masla
   end
 
   # Get all distinct premaslas to build columns
@@ -66,46 +66,12 @@ class PivotJoinTable
   # Join the pivot table to the table to join
   def join_table
     sub = Arel::Table.new('subq')
-    sub_q = Arel::Nodes::As.new(pivot_table, Arel.sql(sub.name))
+    sub_query = Arel::Nodes::As.new(pivot_table, Arel.sql(sub.name))
+
+    join_condition = Arel::Nodes::On.new(@to_join_table.arel_table[:id].eq(sub[@pivot_index]))
 
     @to_join_table
-      .joins(Arel::Nodes::OuterJoin.new(sub_q,
-                                        Arel::Nodes::On.new(@to_join_table.arel_table[:id].eq(sub[@pivot_index]))))
-      .select(@to_join_table.arel_table[Arel.star], *pivoted_column_names.map { |c| sub[c.intern] })
+      .joins(Arel::Nodes::OuterJoin.new(sub_query, join_condition))
+      .select(@to_join_table.arel_table[Arel.star], *pivoted_column_names.map { |column| sub[column.intern] })
   end
 end
-
-# FINAL QUERY:
-#   "SELECT
-#     \"maslas\".*
-#   FROM
-#     \"maslas\"
-#   LEFT OUTER JOIN (
-#     SELECT
-#       \"ct\".*
-#     FROM
-#       crosstab(
-#         'SELECT
-#           \"more_info\".\"masla_id\",
-#           \"more_info\".\"info\",
-#           \"more_info\".\"value\"
-#         FROM
-#           \"more_info\"',
-#         'SELECT DISTINCT
-#           \"more_info\".\"info\"
-#         FROM
-#           \"more_info\"')
-#         AS
-#           ct(masla_id bigint,
-#             \"aadatHaiz\" character varying,
-#             \"aadatNifas\" character varying,
-#             \"aadatTuhr\" character varying,
-#             \"birthTime\" character varying,
-#             \"isMawjoodaFasid\" character varying,
-#             \"mawjoodahTuhr\" character varying,
-#             \"mustabeenUlKhilqat\" character varying,
-#             \"pregStartTime\" character varying))
-#     AS
-#       subq
-#     ON
-#       \"maslas\".\"id\" = \"subq\".\"masla_id\""
