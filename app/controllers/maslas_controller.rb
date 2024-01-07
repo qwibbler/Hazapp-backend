@@ -88,6 +88,11 @@ class MaslasController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_masla
     @masla = Masla.find(params[:id])
+  rescue ActiveRecord::RecordNotFound => e
+    respond_to do |format|
+      format.html { render file: Rails.public_path.join('404.html').to_s, layout: false, status: :not_found }
+      format.json { render json: { error: e.message }, status: :not_found }
+    end
   end
 
   # Only allow a list of trusted parameters through.
