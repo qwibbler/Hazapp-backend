@@ -26,10 +26,8 @@ module MaslasHelper
     "#{type.capitalize}: #{value}" unless value.nil?
   end
 
-  def style_entries(entries, limit = 1)
-    simple_format(entries[0...limit].map do |entry|
-                    style_entry(entry)
-                  end.join("\n\n") + (entries.length > limit ? "\n..." : ''))
+  def style_entries(entries, limit = 2)
+    entries[0...limit].map { |entry| style_entry(entry) }.join("\n\n") + (entries.length > limit ? "\n..." : '')
   end
 
   def style_entries_for_show(entries)
