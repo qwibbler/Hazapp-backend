@@ -1,8 +1,8 @@
 <h1 class="display-1"><%= t('maslas') %> (<%= @maslas.length %>)</h1>
 
 <table class='index table table-hover table-bordered table-striped rounded'>
-  <thead class="sticky_head">
-    <th scope="col"></th>
+  <thead>
+    <th class="tcorner" scope="col"></th>
     <% @cols[1..].each do |col| %>
       <th scope="col"><%= words_from_camelcase(col) %></th>
     <% end %>
