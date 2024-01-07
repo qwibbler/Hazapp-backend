@@ -9,7 +9,7 @@ class MaslasController < ApplicationController
       @maslas = Masla.includes(:user).all
       @cols = Masla.column_names
     else
-      pivot_join_table = PivotJoinTable.new(MoreInfo, 'info', 'masla_id', 'value', Masla)
+      pivot_join_table = PivotJoinTable.new({ to_join_table: Masla })
       @maslas = pivot_join_table.join_table.order(:id)
       @cols = pivot_join_table.all_columns
     end
@@ -22,7 +22,7 @@ class MaslasController < ApplicationController
   def show
     respond_to do |format|
       format.html
-      format.json { render json: @masla.to_json(include: :more_infos) }
+      format.json
     end
   end
 
@@ -88,11 +88,16 @@ class MaslasController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_masla
     @masla = Masla.find(params[:id])
+  rescue ActiveRecord::RecordNotFound => e
+    respond_to do |format|
+      format.html { render file: Rails.public_path.join('404.html').to_s, layout: false, status: :not_found }
+      format.json { render json: { error: e.message }, status: :not_found }
+    end
   end
 
   # Only allow a list of trusted parameters through.
   def masla_params
-    params.require(:masla).permit(:uid, :typeOfInput, :typeOfMasla, :answerUrdu, :answerEnglish,
-                                  entries: %i[startTime endTime])
+    params.require(:masla).permit(:typeOfInput, :typeOfMasla, :answerUrdu, :answerEnglish,
+                                  entries: %i[startTime endTime value type])
   end
 end

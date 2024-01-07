@@ -8,21 +8,26 @@ module MaslasHelper
   end
 
   def date_or_time(date)
+    return date unless date
+
     date.include?('T') ? style_date_time(Date.parse(date)) : style_date(Date.parse(date))
   end
 
   def style_entry(entry)
-    entry
-      .gsub(/["{}\\]/, '')
-      .gsub(/startTime=>([^,]*), endTime=>([^,]*)$/) do |_match|
-      "S:_#{date_or_time(::Regexp.last_match(1))} E:_#{date_or_time(::Regexp.last_match(2))}"
-    end
+    parsed_entry = eval(entry)
+
+    start_time = date_or_time(parsed_entry['startTime'])
+    end_time = date_or_time(parsed_entry['endTime'])
+    value = parsed_entry['value']
+    type = parsed_entry['type']
+
+    return "S:_#{start_time} E:_#{end_time}" unless start_time.nil?
+
+    "#{type.capitalize}: #{value}" unless value.nil?
   end
 
-  def style_entries(entries, limit = 1)
-    simple_format(entries[0...limit].map do |entry|
-                    style_entry(entry)
-                  end.join("\n\n") + (entries.length > limit ? "\n..." : ''))
+  def style_entries(entries, limit = 2)
+    entries[0...limit].map { |entry| style_entry(entry) }.join("\n\n") + (entries.length > limit ? "\n..." : '')
   end
 
   def style_entries_for_show(entries)
@@ -42,8 +47,8 @@ module MaslasHelper
     col.gsub(/[A-Z]/) { |match| " #{match}" }.titleize
   end
 
-  def style_user_data(masla)
-    link_to masla.user.username.titleize, user_path(masla.user)
+  def style_user_data(user)
+    link_to user.username.titleize, user_path(user)
   end
 
   def long_data_key?(key, data)
@@ -55,7 +60,7 @@ module MaslasHelper
   end
 
   def style_data(masla, key, limit_entries = 1, limit_answer = 55)
-    return style_user_data(masla) if key.include?('user')
+    return style_user_data(masla.user) if key.include?('user')
 
     data = masla[key]
     return style_entries(data, limit_entries) if key == 'entries'
