@@ -1,10 +1,10 @@
 module MaslasHelper
   def style_date_time(date)
-    date.strftime('%d-%m-%Y %I:%M %p')
+    date.strftime('%d/%m/%Y %I:%M %p')
   end
 
   def style_date(date)
-    date.strftime('%d-%m-%Y')
+    date.strftime('%d/%m/%Y')
   end
 
   def date_or_time(date)
@@ -23,11 +23,13 @@ module MaslasHelper
 
     return "S:_#{start_time} E:_#{end_time}" unless start_time.nil?
 
-    "#{type.capitalize}: #{value}" unless value.nil?
+    "#{type.capitalize}:_#{value}" unless value.nil?
   end
 
-  def style_entries(entries, limit = 2)
-    entries[0...limit].map { |entry| style_entry(entry) }.join("\n\n") + (entries.length > limit ? "\n..." : '')
+  def style_entries(entries, limit)
+    entries_string = entries.map { |entry| style_entry(entry) }.join(' ')
+    entries_string = entries_string.length > limit ? "#{entries_string[0...limit]}..." : entries_string
+    entries_string.gsub('_', '&nbsp;').html_safe
   end
 
   def style_entries_for_show(entries)
@@ -59,11 +61,11 @@ module MaslasHelper
     sanitize(data[10..limit_answer])
   end
 
-  def style_data(masla, key, limit_entries = 1, limit_answer = 55)
+  def style_data(masla, key, limit_answer = 55)
     return style_user_data(masla.user) if key.include?('user')
 
     data = masla[key]
-    return style_entries(data, limit_entries) if key == 'entries'
+    return style_entries(data, limit_answer) if key == 'entries'
     return style_long_data(data, limit_answer) if long_data_key?(key, data)
     return 'True' if data == 't'
     return style_date_time(data) if key.end_with?('_at')
