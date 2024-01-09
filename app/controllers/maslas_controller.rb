@@ -38,15 +38,8 @@ class MaslasController < ApplicationController
 
   # POST /maslas or /maslas.json
   def create
-    token = request.headers['Authorization']
-    if !token.nil? && token != ''
-      jwt_payload = JWT.decode(token.split[1],
-                               Rails.application.credentials.DEVISE_JWT_SECRET_KEY)
-      current_user = User.find(jwt_payload.first['sub'])
-    end
-
     @masla = Masla.new(masla_params)
-    @masla.user = current_user
+    @masla.user = find_current_user
 
     respond_to do |format|
       if @masla.save
@@ -86,6 +79,18 @@ class MaslasController < ApplicationController
   end
 
   private
+  def find_current_user
+    token = request.headers['Authorization']
+    return unless !token.nil? && token != ''
+
+    begin
+      jwt_payload = JWT.decode(token.split[1],
+                               Rails.application.credentials.DEVISE_JWT_SECRET_KEY)
+      User.find(jwt_payload.first['sub'])
+    rescue StandardError
+      nil
+    end
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_masla
