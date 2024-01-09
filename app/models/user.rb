@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :database_authenticatable, :jwt_authenticatable, :registerable,
          :recoverable, :rememberable, # :validatable
          authentication_keys: [:username],
-         jwt_revocation_strategy: JwtDenylist
+         jwt_revocation_strategy: Devise::JWT::RevocationStrategies::Null
 
   validates :username, uniqueness: true
   validates :password, length: { minimum: 6 }
