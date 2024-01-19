@@ -4,14 +4,8 @@ class UsersController < ApplicationController
   def show
     render html: '<h1>No Maslas</h1>'.html_safe if @user.maslas.count.zero?
 
-    if @user.more_infos.count.zero?
-      @maslas = @user.maslas
-      @cols = @maslas.column_names
-    else
-      pivot_join_table = PivotJoinTable.new({ to_pivot_table: @user.more_infos, to_join_table: @user.maslas })
-      @maslas = pivot_join_table.join_table.order(:id)
-      @cols = pivot_join_table.all_columns
-    end
+    @maslas = @user.maslas.includes(:user, :more_infos)
+    @more_cols = @user.more_infos.distinct.pluck('info') || []
 
     @limit_answer = 55
   end
