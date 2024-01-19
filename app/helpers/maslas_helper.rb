@@ -28,7 +28,7 @@ module MaslasHelper
 
   def style_entries(entries, limit)
     entries_string = entries.map { |entry| style_entry(entry) }.join(' ')
-    entries_string = entries_string.length > limit ? "#{entries_string[0...limit]}..." : entries_string
+    entries_string = "#{entries_string[0...limit]}..." if entries_string.length > limit
     entries_string.gsub('_', '&nbsp;').html_safe
   end
 
