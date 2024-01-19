@@ -4,7 +4,7 @@ class MaslasController < ApplicationController
 
   # GET /maslas or /maslas.json
   def index
-    render html: '<h1>No Maslas</h1>'.html_safe if Masla.count.zero?
+    render 'shared/noMasla' if Masla.count.zero?
     @maslas = Masla.includes(:user, :more_infos)
     @more_cols = MoreInfo.distinct.pluck('info') || []
     @limit_answer = 55

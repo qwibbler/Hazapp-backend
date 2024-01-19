@@ -2,7 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: %i[show]
 
   def show
-    render html: '<h1>No Maslas</h1>'.html_safe if @user.maslas.count.zero?
+    render 'shared/noMasla' if @user.maslas.count.zero?
 
     @maslas = @user.maslas.includes(:user, :more_infos)
     @more_cols = @user.more_infos.distinct.pluck('info') || []
