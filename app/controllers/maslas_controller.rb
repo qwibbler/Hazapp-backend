@@ -4,19 +4,9 @@ class MaslasController < ApplicationController
 
   # GET /maslas or /maslas.json
   def index
-    render html: '<h1>No Maslas</h1>'.html_safe if Masla.count.zero?
-    if MoreInfo.count.zero?
-      @maslas = Masla.includes(:user).all
-      @cols = Masla.column_names
-    else
-      pivot_join_table = PivotJoinTable.new({ to_join_table: Masla })
-      @maslas = pivot_join_table.join_table.order(:id)
-      @cols = pivot_join_table.all_columns
-      @cols.delete('updated_at')
-      @cols.insert(1, @cols.delete('created_at'))
-      @cols.insert(1, @cols.delete('user_id'))
-    end
-
+    render 'shared/noMasla' if Masla.count.zero?
+    @maslas = Masla.includes(:user, :more_infos)
+    @more_cols = MoreInfo.distinct.pluck('info') || []
     @limit_answer = 55
   end
 
@@ -79,6 +69,7 @@ class MaslasController < ApplicationController
   end
 
   private
+
   def find_current_user
     token = request.headers['Authorization']
     return unless !token.nil? && token != ''

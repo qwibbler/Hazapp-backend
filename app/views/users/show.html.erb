@@ -1,20 +1,3 @@
 <h1 class="display-1"><%= @user.username.titleize %></h1>
 
-<table class='index table table-hover table-bordered table-striped rounded'>
-  <thead>
-    <th class="tcorner" scope="col"></th>
-    <% @cols[1..].each do |col| %>
-      <th scope="col"><%= words_from_camelcase(col) %></th>
-    <% end %>
-    <% if current_user && current_user.username == "admin" %>
-      <th scope="col"></th>
-    <% end %>
-  </thead>
-  <tbody class="table-group-divider">
-    <% @maslas.each do |masla| %>
-      <tr>
-        <%= render masla %>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= render partial: 'shared/table' %>

@@ -28,7 +28,7 @@ module MaslasHelper
 
   def style_entries(entries, limit)
     entries_string = entries.map { |entry| style_entry(entry) }.join(' ')
-    entries_string = entries_string.length > limit ? "#{entries_string[0...limit]}..." : entries_string
+    entries_string = "#{entries_string[0...limit]}..." if entries_string.length > limit
     entries_string.gsub('_', '&nbsp;').html_safe
   end
 
@@ -64,7 +64,7 @@ module MaslasHelper
   def style_data(masla, key, limit_answer = 55)
     return style_user_data(masla.user) if key.include?('user')
 
-    data = masla[key]
+    data = masla[key] || masla.info(key)
     return style_entries(data, limit_answer) if key == 'entries'
     return style_long_data(data, limit_answer) if long_data_key?(key, data)
     return 'True' if data == 't'
