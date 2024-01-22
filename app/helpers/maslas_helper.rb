@@ -1,4 +1,15 @@
 module MaslasHelper
+  def convert_to_html(text)
+    html = ''
+    paragraphs = text.gsub(/\*(.*?)\*/, '<b>\1</b>').split("\n\n")
+
+    paragraphs.each do |paragraph|
+      html << "<p>#{paragraph}</p>\n\n"
+    end
+
+    html.html_safe
+  end
+
   def style_date_time(date)
     date.strftime('%d/%m/%Y %I:%M %p')
   end
