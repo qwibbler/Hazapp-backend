@@ -4,7 +4,7 @@ class UsersController < ApplicationController
   def show
     render 'shared/noMasla' if @user.maslas.count.zero?
 
-    @maslas = @user.maslas.includes(:user, :more_infos)
+    @maslas = @user.maslas.includes(:user, :more_infos).order(created_at: :desc)
     @more_cols = @user.more_infos.distinct.pluck('info') || []
 
     @limit_answer = 55
