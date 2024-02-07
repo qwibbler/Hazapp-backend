@@ -5,7 +5,7 @@ class MaslasController < ApplicationController
   # GET /maslas or /maslas.json
   def index
     render 'shared/noMasla' if Masla.count.zero?
-    @maslas = Masla.includes(:user, :more_infos)
+    @maslas = Masla.includes(:user, :more_infos).order(created_at: :desc)
     @more_cols = MoreInfo.distinct.pluck('info') || []
     @limit_answer = 55
   end
@@ -95,7 +95,7 @@ class MaslasController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def masla_params
-    params.require(:masla).permit(:typeOfInput, :typeOfMasla, :answerUrdu, :answerEnglish,
+    params.require(:masla).permit(:typeOfInput, :typeOfMasla, :answerUrdu, :answerEnglish, :answerMMEnglish,
                                   entries: %i[startTime endTime value type])
   end
 end
