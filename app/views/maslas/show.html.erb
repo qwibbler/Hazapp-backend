@@ -52,11 +52,11 @@
       <div class="row gx-5">
         <div class="col col-lg">
           <h3>English:</h3>
-          <p><%= simple_format(@masla.answerEnglish) %></p>
+          <p><%= convert_to_html(@masla.answerEnglish) %></p>
         </div>
         <div dir="rtl" class="urdu col col-lg">
           <h3>اردو:</h3>
-          <p><%= simple_format(@masla.answerUrdu) %></p>
+          <p><%= convert_to_html(@masla.answerUrdu) %></p>
         </div>
       </div>
     </div>

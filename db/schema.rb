@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_10_01_005103) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_07_020728) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "tablefunc"
@@ -30,6 +30,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_01_005103) do
     t.string "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "answerMMEnglish"
     t.index ["user_id"], name: "index_maslas_on_user_id"
   end
 
