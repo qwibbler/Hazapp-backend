@@ -95,7 +95,7 @@ class MaslasController < ApplicationController
 
   # Only allow a list of trusted parameters through.
   def masla_params
-    params.require(:masla).permit(:typeOfInput, :typeOfMasla, :answerUrdu, :answerEnglish,
+    params.require(:masla).permit(:typeOfInput, :typeOfMasla, :answerUrdu, :answerEnglish, :answerMMEnglish,
                                   entries: %i[startTime endTime value type])
   end
 end
