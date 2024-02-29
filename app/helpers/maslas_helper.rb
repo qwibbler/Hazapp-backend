@@ -1,13 +1,25 @@
 module MaslasHelper
   def convert_to_html(text)
-    html = ''
-    paragraphs = text.gsub(/\*(.*?)\*/, '<b>\1</b>').split("\n\n")
-
-    paragraphs.each do |paragraph|
-      html << "<p>#{paragraph}</p>\n\n"
+    has_table = false
+    paragraphs = text.gsub(/\*(.*?)\*/, '<b>\1</b>').split("\n\n").map do |paragraph|
+      if paragraph.include?("\t")
+        has_table = true
+        cells = paragraph.split("\t").map { |cell| "<td>#{cell}</td>" }.join
+        "<tr>#{cells}</tr>"
+      else
+        "<p>#{paragraph}</p>"
+      end
     end
 
-    html.html_safe
+    paragraphs = paragraphs.join
+
+    if has_table
+      paragraphs = paragraphs
+        .gsub(%r{<tr>(.*)</tr>}, '<table><tbody><tr>\1</tbody></tr></table>')
+        .gsub(%r{(</tr><tr><td>.*?</td>)<td>}, '\1<td colspan="2">')
+    end
+
+    paragraphs.html_safe
   end
 
   def style_date_time(date)
