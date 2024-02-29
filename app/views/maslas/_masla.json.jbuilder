@@ -2,7 +2,8 @@ masla[:entries].map! do |entry|
   eval(entry)
 end
 
-json.extract! masla, :id, :typeOfInput, :typeOfMasla, :entries, :answerEnglish, :answerUrdu, :user_id, :created_at
+json.extract! masla, :id, :typeOfInput, :typeOfMasla, :entries, :answerEnglish, :answerUrdu, :answerMMEnglish,
+              :user_id, :created_at
 
 json.more_infos do
   @masla.more_infos.each do |info|
