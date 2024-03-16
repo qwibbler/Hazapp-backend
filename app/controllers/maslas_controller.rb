@@ -5,8 +5,9 @@ class MaslasController < ApplicationController
   # GET /maslas or /maslas.json
   def index
     render 'shared/noMasla' if Masla.count.zero?
-    @maslas = Masla.includes(:user, :more_infos).order(created_at: :desc)
+    @maslas = Masla.paginate(page: params[:page], per_page: 100).includes(:user, :more_infos).order(created_at: :desc)
     @more_cols = MoreInfo.distinct.pluck('info') || []
+    @count = Masla.count
     @limit_answer = 55
   end
 
