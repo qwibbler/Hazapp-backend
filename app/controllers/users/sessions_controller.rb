@@ -1,16 +1,5 @@
 class Users::SessionsController < Devise::SessionsController
   respond_to :json, :html
-  # clear_respond_to if request.format == 'json'
-
-  # def new
-  #   Rails.logger.debug request.format
-  #   # clear_respond_to if request.format == 'json'
-  #   super
-  #   # respond_to do |format|
-  #   #   format.html { redirect_to new_user_session_path }
-  #   #   format.json { super }
-  #   # end
-  # end
 
   private
 
@@ -22,7 +11,7 @@ class Users::SessionsController < Devise::SessionsController
   end
 
   def log_in_success
-    render json: { message: "Logged: #{current_user.id}" }, status: :ok
+    render json: { message: 'Logged In', user: current_user }, status: :ok
   end
 
   def log_in_failure

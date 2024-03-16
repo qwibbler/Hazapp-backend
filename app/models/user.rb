@@ -7,8 +7,14 @@ class User < ApplicationRecord
          jwt_revocation_strategy: Devise::JWT::RevocationStrategies::Null
 
   validates :username, uniqueness: true
-  validates :password, length: { minimum: 6 }
+  validates :password, presence: true, length: { minimum: 6 }, if: :password_required?
 
   has_many :maslas, dependent: :nullify
   has_many :more_infos, through: :maslas, dependent: :nullify
+
+  private
+
+  def password_required?
+    new_record? || password.present?
+  end
 end
