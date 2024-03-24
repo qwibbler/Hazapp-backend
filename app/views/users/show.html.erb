@@ -9,11 +9,11 @@
 
 <% if @user.personal_apper? %>
 
-  <% if @current_user&.can_update %>
+  <% if current_user&.can_update %>
     <div class="container">
       <div class="card d-inline-block">
         <div class="card-body">
-          <%= form_with(model: @user) do |form| %>
+          <%= form_with(model: @user, local: true) do |form| %>
             <div class="form-group">
               <%= form.label :masla_id %>
               <%= form.text_field :masla_id, class: 'form-control' %>
