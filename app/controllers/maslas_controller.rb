@@ -13,6 +13,9 @@ class MaslasController < ApplicationController
 
   # GET /maslas/1 or /maslas/1.json
   def show
+    p '----------------'
+    p @masla.id
+    p '----------------'
     respond_to do |format|
       format.html
       format.json
@@ -92,7 +95,9 @@ class MaslasController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_masla
-    @masla = Masla.find(params[:id])
+    current_user = find_current_user
+    has_personal_masla = current_user&.personal_apper? && !current_user&.masla_id.nil?
+    @masla = has_personal_masla ? current_user.personal_masla : Masla.find(params[:id])
   rescue ActiveRecord::RecordNotFound => e
     respond_to do |format|
       format.html { render file: Rails.public_path.join('404.html').to_s, layout: false, status: :not_found }
