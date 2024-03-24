@@ -8,7 +8,7 @@
     <% @more_cols.each do |col| %>
       <th scope="col"><%= words_from_camelcase(col) %></th>
     <% end %>
-    <% if current_user && current_user.username == "admin" %>
+    <% if current_user&.can_delete %>
       <th scope="col"></th>
     <% end %>
   </thead>

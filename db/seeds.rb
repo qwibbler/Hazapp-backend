@@ -1,5 +1,11 @@
-user1 = User.create(username: 'user1', password: 'password1')
-user2 = User.create(username: 'user2', password: 'password2')
+
+admin = UserRole.create(name: :admin, label: 'Admin', can_delete: true, can_update: true)
+hazapper = UserRole.create(name: :hazapper, label: 'HazApper', can_update: true)
+personalapper = UserRole.create(name: :personal_apper, label: 'PersonalApper', has_masla: true)
+
+adminUser = User.create(username: :admin, password: '123456', user_role: admin)
+hazapperUser = User.create(username: :hazapper, password: '123456', user_role: hazapper)
+personalapperUser = User.create(username: :personalapper, password: '123456', user_role: personalapper)
 
 masla1 = Masla.create(uid: '1', typeOfInput: 'text1', typeOfMasla: 'masla', entries: %w[masla1 masla2 masla3],
                       answerUrdu: 'answerUrdu1', answerEnglish: 'answerEnglish1', user: user1)

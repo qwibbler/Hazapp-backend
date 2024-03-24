@@ -2,6 +2,7 @@
 
 body {
   padding: 0.5rem;
+  --error-red: #FF000024;
 }
 
 .display-1 a {
@@ -33,6 +34,10 @@ table.index {
     background-color: #979797 !important;
     z-index: 150;
     left: 0;
+  }
+
+  .error-cell {
+    background-color: var(--error-red);
   }
 }
 

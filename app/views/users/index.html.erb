@@ -1,0 +1,41 @@
+<%= will_paginate @users %>
+<table class='index table table-hover table-bordered table-striped rounded'>
+  <thead>
+    <th class="tcorner" scope="col"></th>
+    <th scope="col">User Name</th>
+    <th scope="col">User Role</th>
+    <th scope="col">User Masla</th>
+    <% if current_user&.admin? %>
+      <th scope="col">Delete</th>
+    <% end %>
+  </thead>
+  <tbody class="table-group-divider">
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= link_to user.id, user %></td>
+        <td><%= user.username %></td>
+        <td><%= user.role_label %></td>
+        <% if user.personal_apper? %>
+          <td>
+            <% if user.masla_id.nil? %>
+              <span class="error-cell"></span>
+            <% else %>
+              <%= user.masla_id %>
+            <% end %>
+            <% if current_user&.admin? || current_user == user %>
+              <%= form_with(model: user, local: true, url: user_path(user), method: :patch) do |f| %>
+                <%= f.text_field :masla_id %>
+                <%= f.submit 'Update' %>
+              <% end %>
+            <% end %>
+          </td>
+        <% else %>
+          <td><%= user.masla_id %></td>
+        <% end %>
+        <% if current_user&.can_delete %>
+          <td><%= button_to "X", user, method: :delete %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
