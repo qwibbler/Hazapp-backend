@@ -11,17 +11,18 @@
   </head>
 
   <body>
-    <% if notice %>
-      <p class="notice"><%= notice %></p>
-    <% elsif alert %>
-      <p class="alert"><%= alert %></p>
-    <% end %>
-
     <% if user_signed_in? %>
     <div> Welcome <%= current_user.username.titlecase %> </div>
       <%= button_to "Sign out", destroy_user_session_path, method: :delete %>
     <% else %>
       <%= button_to "Sign in", new_user_session_path, method: :get  %>
+    <% end %>
+    <%= button_to "All Users", users_path, method: :get  %>
+
+    <% if notice %>
+      <p class="notice"><%= notice %></p>
+    <% elsif alert %>
+      <p class="alert"><%= alert %></p>
     <% end %>
 
     <%= yield %>
