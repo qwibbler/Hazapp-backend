@@ -5,6 +5,6 @@
 <% @more_cols.each do |col| %>
   <td><%= if !masla.info(col).nil? then style_data(masla, col, @limit_answer) end %></td>
 <% end %>
-<% if current_user && current_user.username == "admin" %>
+<% if current_user&.can_delete %>
   <td><%= button_to "X", masla, method: :delete %></td>
 <% end %>

@@ -1,0 +1,29 @@
+<%= will_paginate @users %>
+<table class='index table table-hover table-bordered table-striped rounded'>
+  <thead>
+    <th class="tcorner" scope="col"></th>
+    <th scope="col">User Name</th>
+    <th scope="col">User Role</th>
+    <th scope="col">User Masla</th>
+    <% if current_user&.admin? %>
+      <th scope="col"></th>
+    <% end %>
+  </thead>
+  <tbody class="table-group-divider">
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= link_to user.id, user %></td>
+        <td><%= user.username %></td>
+        <td><%= user.role_label %></td>
+        <% if user.personal_apper? && user.masla_id.nil? %>
+          <td class="error-cell"></td>
+        <% else %>
+          <td><%= user.masla_id %></td>
+        <% end %>
+        <% if current_user&.can_delete %>
+          <td><%= button_to "X", user, method: :delete %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
