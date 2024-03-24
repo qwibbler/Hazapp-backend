@@ -39,6 +39,12 @@ class MaslasController < ApplicationController
         params[:others].each do |other|
           MoreInfo.create(masla: @masla, info: other[0], value: other[1]) unless other[1].blank? || other[1].nil?
         end
+
+        masla_user = @masla.user
+        if masla_user&.personal_apper?
+          masla_user.masla_id = @masla.id
+          masla_user.save
+        end
         format.html { redirect_to masla_url(@masla), notice: I18n.t('masla_successfully_created') }
         format.json { render :show, status: :created, location: @masla }
       else
@@ -88,7 +94,9 @@ class MaslasController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_masla
-    @masla = Masla.find(params[:id])
+    current_user = find_current_user
+    has_personal_masla = current_user&.personal_apper? && !current_user&.masla_id.nil?
+    @masla = has_personal_masla ? current_user.personal_masla : Masla.find(params[:id])
   rescue ActiveRecord::RecordNotFound => e
     respond_to do |format|
       format.html { render file: Rails.public_path.join('404.html').to_s, layout: false, status: :not_found }
