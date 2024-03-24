@@ -13,6 +13,8 @@ class MaslasController < ApplicationController
 
   # GET /maslas/1 or /maslas/1.json
   def show
+    @next_masla = Masla.where('created_at > ?', @masla.created_at).order('created_at ASC').first
+    @prev_masla = Masla.where('created_at < ?', @masla.created_at).order('created_at DESC').first
     respond_to do |format|
       format.html
       format.json

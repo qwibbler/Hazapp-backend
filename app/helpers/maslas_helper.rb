@@ -31,9 +31,15 @@ module MaslasHelper
   end
 
   def date_or_time(date)
-    return date unless date
+    return date if date.nil? || date.strip.empty?
 
-    date.include?('T') ? style_date_time(Date.parse(date)) : style_date(Date.parse(date))
+    begin
+      parsed_date = Date.parse(date)
+    rescue ArgumentError
+      return date
+    end
+
+    date.include?('T') ? style_date_time(parsed_date) : style_date(parsed_date)
   end
 
   def style_entry(entry)

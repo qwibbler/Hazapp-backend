@@ -4,7 +4,15 @@
   <div class="container mt-5">
     <div class="card">
       <div class="card-header">
-        <h1 class="display-1">Masla <%= masla.id %></h1>
+        <h1 class="display-1">
+          <% if @prev_masla %>
+            <%= link_to "<", masla_path(@prev_masla) %>
+          <% end %>
+          Masla <%= masla.id %>
+          <% if @next_masla %>
+            <%= link_to ">", masla_path(@next_masla) %>
+          <% end %>
+        </h1>
       </div>
       <div class="card-body">
         <small>Created at: <%= style_date_time(masla.created_at) %></small>
