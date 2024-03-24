@@ -5,13 +5,22 @@ class Users::SessionsController < Devise::SessionsController
 
   def respond_with(_resource, _opts = {})
     respond_to do |format|
-      format.html { render :new }
+      format.html do
+        if resource.persisted?
+          redirect_to root_path
+        else
+          render :new
+        end
+      end
       format.json { current_user ? log_in_success : log_in_failure }
     end
   end
 
   def log_in_success
-    render json: { message: 'Logged In', user: current_user }, status: :ok
+    # render json: { message: 'Logged In', user: current_user }, status: :ok
+    @message = 'Logged In'
+    @user = current_user
+    render 'shared/user_details', status: :ok
   end
 
   def log_in_failure
