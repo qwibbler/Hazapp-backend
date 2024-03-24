@@ -13,9 +13,6 @@ class MaslasController < ApplicationController
 
   # GET /maslas/1 or /maslas/1.json
   def show
-    p '----------------'
-    p @masla.id
-    p '----------------'
     respond_to do |format|
       format.html
       format.json

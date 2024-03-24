@@ -1,79 +1,103 @@
 <section class="container-fluid">
-  <p style="color: green"><%= notice %></p>
+  <p class="text-success"><%= notice %></p>
 
-  <div class="contasiner m-5">
-    <h1 class="display-1">Masla <%= masla.id %></h1>
-    <small>Created at: <%= style_date_time(masla.created_at) %></small>
-    <br>
-    <small>Updated at: <%= style_date_time(masla.updated_at) %></small>
-    <br>
-    <small>Created by: <%= masla.user&.username&.titleize || 'Anonymous' %></small>
+  <div class="container mt-5">
+    <div class="card">
+      <div class="card-header">
+        <h1 class="display-1">Masla <%= masla.id %></h1>
+      </div>
+      <div class="card-body">
+        <small>Created at: <%= style_date_time(masla.created_at) %></small>
+        <br>
+        <small>Updated at: <%= style_date_time(masla.updated_at) %></small>
+        <br>
+        <small>Created by: <%= masla.user&.username&.titleize || 'Anonymous' %></small>
+      </div>
+    </div>
   </div>
 
-  <div class="container m-5">
-    <h2>Masla Info:</h2>
-    <div class="row">
-      <dt class="col col-auto">Masla Type:</dt>
-      <dd class="col col-auto"><%= words_from_camelcase(masla.typeOfMasla) %></dd>
+  <div class="container mt-5">
+    <div class="card">
+      <div class="card-header">
+        <h2>Masla Info:</h2>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-lg-12">
+            <dl class="row mb-0">
+              <dt class="col-sm-4">Masla Type:</dt>
+              <dd class="col-sm-8"><%= words_from_camelcase(masla.typeOfMasla) %></dd>
+              <dt class="col-sm-4">Masla Input:</dt>
+              <dd class="col-sm-8"><%= words_from_camelcase(masla.typeOfInput) %></dd>
+              <% masla.more_infos.each do |more_info| %>
+                <dt class="col-sm-4"><%= words_from_camelcase(more_info.info) %>:</dt>
+                <dd class="col-sm-8"><%= more_info.value == 't' ? 'True' : words_from_camelcase(more_info.value) %></dd>
+              <% end %>
+            </dl>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <div class="row">
-      <dt class="col col-auto">Masla Input:</dt>
-      <dd class="col col-auto"><%= words_from_camelcase(masla.typeOfInput) %></dd>
-    </div>
-
-      <% masla.more_infos.each do |more_info| %>
-    <div class="row">
-        <dt class="col col-auto"><%= words_from_camelcase(more_info.info) %>:</dt>
-        <dd class="col col-auto"><%= more_info.value == 't' ? 'True' : more_info.value %></dd>
-    </div>
-      <% end%>
   </div>
+
 
   <% unless masla.entries.empty? %>
-    <div class="container m-5">
-      <h2>Entries:</h2>
-        <div class="row gx-auto">
-          <div class="col col-lg"><h3>Start:</h3></div>
-          <div class="col col-lg"><h3>End:</h3></div>
+    <div class="container mt-5">
+      <div class="card">
+        <div class="card-header">
+          <h2>Entries:</h2>
         </div>
-        <% style_entries_for_show(masla.entries).each do |entry| %>
-          <div class="row gx-auto">
-            <div class="col col-lg"><dd><%= entry[0] %></dd></div>
-            <div class="col col-lg"><dd><%= entry[1] %></dd></div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col"><h3>Start:</h3></div>
+            <div class="col"><h3>End:</h3></div>
           </div>
-        <% end %>
+          <% style_entries_for_show(masla.entries).each do |entry| %>
+            <div class="row">
+              <div class="col"><dd><%= entry[0] %></dd></div>
+              <div class="col"><dd><%= entry[1] %></dd></div>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
   <% end %>
 
   <% unless masla.answerEnglish.blank? %>
-    <div class="container m-5">
-        <h2>Answers:</h2>
-      <div class="row gx-5">
-        <div class="col col-lg">
-          <h3>English:</h3>
-          <p><%= convert_to_html(masla.answerEnglish) %></p>
+    <div class="container mt-5">
+      <div class="card">
+        <div class="card-header">
+          <h2>Answers:</h2>
         </div>
-        <div dir="rtl" class="urdu col col-lg">
-          <h3>اردو:</h3>
-          <p><%= convert_to_html(masla.answerUrdu) %></p>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-lg">
+              <h3>English:</h3>
+              <p><%= convert_to_html(masla.answerEnglish) %></p>
+            </div>
+            <div dir="rtl" class="col-lg">
+              <h3>اردو:</h3>
+              <p><%= convert_to_html(masla.answerUrdu) %></p>
+            </div>
+          </div>
+          <% unless masla.answerMMEnglish.blank? %>
+            <hr>
+            <div class="row">
+              <div class="col-lg">
+                <h3>MMEnglish:</h3>
+                <p><%= convert_to_html(masla.answerMMEnglish) %></p>
+              </div>
+            </div>
+          <% end %>
         </div>
       </div>
-      <hr>
-      <% unless masla.answerMMEnglish.blank? %>
-        <div class="row gx-5">
-          <h3>MMEnglish:</h3>
-          <p><%= convert_to_html(masla.answerMMEnglish) %></p>
-        </div>
-      <% end %>
     </div>
   <% end %>
 
-  <div class="container m-5">
-    <%# link_to "Edit this masla", edit_masla_path(masla) %>
-    <%= link_to "Back to maslas", maslas_path, :class => "btn btn-secondary m-1" %>
+  <div class="container mt-5">
+    <%= link_to "Back to Maslas", maslas_path, class: "btn btn-secondary mr-1 mb-1" %>
     <% if current_user&.can_delete %>
-      <%= button_to "Destroy this masla", masla, method: :delete, :class => "btn btn-secondary m-1" %>
+      <%= button_to "Destroy this Masla", masla, method: :delete, class: "btn btn-secondary mr-1 mb-1" %>
     <% end %>
   </div>
 </section>
