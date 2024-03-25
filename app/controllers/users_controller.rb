@@ -6,10 +6,11 @@ class UsersController < ApplicationController
   end
 
   def show
-    render 'shared/noMasla' if !@user.personal_apper? && @user.maslas.count.zero?
-
-    @maslas = @user.maslas.paginate(page: params[:page], per_page: 100).includes(:user,
-                                                                                 :more_infos).order(created_at: :desc)
+    render 'show' if !@user.personal_apper? && @user.maslas.count.zero?
+    @maslas = @user.maslas
+      .paginate(page: params[:page], per_page: 100)
+      .includes(:user, :more_infos)
+      .order(created_at: :desc)
     @more_cols = @user.more_infos.distinct.pluck('info') || []
     @count = @user.maslas.count
 
