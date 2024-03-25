@@ -7,49 +7,52 @@
 )
 </h1>
 
-<% if @user.personal_apper? %>
+<div class="container">
+  <% if @user.personal_apper? && current_user&.can_update %>
+    <div class="card d-inline-block">
+      <div class="card-body">
+        <%= form_with(model: @user, local: true) do |form| %>
+          <div class="form-group">
+            <%= form.label :masla_id %>
+            <%= form.text_field :masla_id, class: 'form-control' %>
+          </div>
 
-  <% if current_user&.can_update %>
-    <div class="container">
+          <div class="form-group mt-2">
+            <%= form.submit "Update Masla ID", class: 'btn btn-primary' %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+    <% if current_user&.admin? %>
       <div class="card d-inline-block">
         <div class="card-body">
           <%= form_with(model: @user, local: true) do |form| %>
             <div class="form-group">
-              <%= form.label :masla_id %>
-              <%= form.text_field :masla_id, class: 'form-control' %>
+              <%= form.label :user_role_id, "Select User Role" %><br />
+              <%= form.collection_select :user_role_id, UserRole.all, :id, :label, {}, {autocomplete: "user_role", class: 'form-control'} %>
             </div>
 
             <div class="form-group mt-2">
-              <%= form.submit "Update Masla ID", class: 'btn btn-primary' %>
+              <%= form.submit "Update User Role", class: 'btn btn-primary' %>
             </div>
           <% end %>
         </div>
       </div>
+    <% end %>
+</div>
 
-      <% if current_user&.admin? %>
-        <div class="card d-inline-block">
-          <div class="card-body">
-            <%= form_with(model: @user, local: true) do |form| %>
-              <div class="form-group">
-                <%= form.label :user_role_id, "Select User Role" %><br />
-                <%= form.collection_select :user_role_id, UserRole.all, :id, :label, {}, {autocomplete: "user_role", class: 'form-control'} %>
-              </div>
-
-              <div class="form-group mt-2">
-                <%= form.submit "Update User Role", class: 'btn btn-primary' %>
-              </div>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
-
-  <% if @user&.personal_masla.nil? %>
-    <%= render 'shared/noMasla' %>
-  <% else %>
+<% if @user.personal_apper? %>
+  <% if @user&.personal_masla.present? %>
     <%= render 'shared/displayMasla', masla: @user.personal_masla %>
+  <% else %>
+    <%= render 'shared/noMasla' %>
   <% end %>
 <% else %>
-  <%= render partial: 'shared/table' %>
+  <% if !@count || @count.zero? %>
+    <%= render 'shared/noMasla' %>
+  <% else %>
+    <%= render partial: 'shared/table' %>
+  <% end %>
 <% end %>
