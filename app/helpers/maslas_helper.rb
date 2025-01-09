@@ -79,7 +79,11 @@ module MaslasHelper
   end
 
   def style_user_data(user)
-    link_to user.username.titleize, user_path(user)
+    if user&.username.present?
+      link_to user.username.titleize, user_path(user)
+    else
+      "Unknown User"
+    end
   end
 
   def long_data_key?(key, data)
