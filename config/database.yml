@@ -3,7 +3,6 @@
 default: &default
   adapter: postgresql
   encoding: unicode
-  username: home
   # For details on connection pooling, see Rails configuration guide
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
@@ -68,6 +67,6 @@ test:
 #
 production:
   <<: *default
-  database: Hazapp_backend_production
-  username: Hazapp_backend
-  password: <%= ENV["HAZAPP_BACKEND_DATABASE_PASSWORD"] %>
+  database: hazapp_backend_production
+  username: hazapp_backend
+  password: hazapp
